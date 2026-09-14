@@ -36,25 +36,35 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v6
 
-      - name: Verify project version matches tag
+      - name: Verify project version matches release base version
         env:
           TAG: ${{ github.event.release.tag_name }}
         run: |
           PROJECT_VERSION="$(./gradlew -q properties --no-daemon | sed -n 's/^version: //p' | head -n 1)"
-          if [[ "$PROJECT_VERSION" != "$TAG" ]]; then
-            echo "Release tag $TAG does not match project version $PROJECT_VERSION"
+          RELEASE_BASE_VERSION="${TAG%%-*}"
+          if [[ "$PROJECT_VERSION" != "$RELEASE_BASE_VERSION" ]]; then
+            echo "Release tag $TAG has base version $RELEASE_BASE_VERSION, but the project version is $PROJECT_VERSION"
             exit 1
           fi
+          echo "PROJECT_VERSION=$PROJECT_VERSION" >> "$GITHUB_ENV"
 
       - name: Build release JAR
         run: ./gradlew clean build --no-daemon
 
-      - name: Create SHA-256 checksum
+      - name: Create tagged release artifacts
         env:
           TAG: ${{ github.event.release.tag_name }}
         run: |
+          SOURCE_JAR="build/libs/pheads-$PROJECT_VERSION.jar"
+          TARGET_JAR="build/release/pheads-$TAG.jar"
+
+          if [[ ! -f "$SOURCE_JAR" ]]; then
+            echo "Expected build output not found: $SOURCE_JAR"
+            exit 1
+          fi
+
           mkdir -p build/release
-          cp "build/libs/pheads-$TAG.jar" build/release/
+          cp "$SOURCE_JAR" "$TARGET_JAR"
           cd build/release
           sha256sum "pheads-$TAG.jar" > "pheads-$TAG.jar.sha256"
 
