@@ -23,3 +23,4 @@
 ### Fixed
 
 - Prerelease tags now validate against the base project version and attach correctly named JAR and SHA-256 artifacts.
+- Invalid configuration reloads now fail validation without replacing the last-known-good active settings.

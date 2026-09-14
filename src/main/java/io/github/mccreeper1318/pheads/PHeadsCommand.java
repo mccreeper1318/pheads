@@ -31,8 +31,11 @@ final class PHeadsCommand implements CommandExecutor, TabCompleter {
                 return true;
             }
 
-            plugin.reloadHeadDropConfig();
-            sender.sendMessage("PHeads configuration reloaded.");
+            if (plugin.reloadHeadDropConfig()) {
+                sender.sendMessage("PHeads configuration reloaded.");
+            } else {
+                sender.sendMessage("PHeads configuration reload failed. Check the server console for details.");
+            }
             return true;
         }
 
