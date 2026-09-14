@@ -23,11 +23,9 @@ jobs:
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v6
-        with:
-          gradle-version: '9.7.1'
 
       - name: Run tests
-        run: gradle test --no-daemon
+        run: ./gradlew test --no-daemon
 
   build:
     name: Build
@@ -45,11 +43,9 @@ jobs:
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v6
-        with:
-          gradle-version: '9.7.1'
 
       - name: Build plugin
-        run: gradle build --no-daemon
+        run: ./gradlew build --no-daemon
 
       - name: Upload plugin JAR
         uses: actions/upload-artifact@v7

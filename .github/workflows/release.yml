@@ -35,21 +35,19 @@ jobs:
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v6
-        with:
-          gradle-version: '9.7.1'
 
       - name: Verify project version matches tag
         env:
           TAG: ${{ github.event.release.tag_name }}
         run: |
-          PROJECT_VERSION="$(gradle -q properties --no-daemon | sed -n 's/^version: //p' | head -n 1)"
+          PROJECT_VERSION="$(./gradlew -q properties --no-daemon | sed -n 's/^version: //p' | head -n 1)"
           if [[ "$PROJECT_VERSION" != "$TAG" ]]; then
             echo "Release tag $TAG does not match project version $PROJECT_VERSION"
             exit 1
           fi
 
       - name: Build release JAR
-        run: gradle clean build --no-daemon
+        run: ./gradlew clean build --no-daemon
 
       - name: Create SHA-256 checksum
         env:

@@ -2,6 +2,8 @@
 
 PHeads is a lightweight Paper plugin that adds configurable head drops for mobs with vanilla head items. Player head drops are also supported and are disabled by default.
 
+PHeads only rolls its configured head drops when the killed mob or player is credited to a player killer. Environmental deaths, mob kills, and other deaths without a player killer do not trigger PHeads drops.
+
 ## Requirements
 
 - Paper 26.2
@@ -13,7 +15,7 @@ PHeads is a lightweight Paper plugin that adds configurable head drops for mobs 
 2. Place the JAR in your server's `plugins` folder.
 3. Start or restart the server once to generate `plugins/PHeads/config.yml`.
 4. Edit the drop chances as needed.
-5. Restart the server after changing the configuration.
+5. Run `/pheads reload` to apply configuration changes, or restart the server.
 
 ## Configuration
 
@@ -35,6 +37,14 @@ player-heads:
 
 PHeads adds configured drops without removing or replacing vanilla drops.
 
+## Commands
+
+| Command | Description | Permission |
+| --- | --- | --- |
+| `/pheads reload` | Reloads `config.yml` without restarting the server. | `pheads.reload` |
+
+The `pheads.reload` permission defaults to server operators.
+
 ## Supported heads
 
 | Entity | Dropped item |
@@ -51,10 +61,18 @@ Player heads use the killed player's profile so the dropped head keeps that play
 
 ## Building from source
 
-The project uses Java 25 and Gradle. CI currently builds with Gradle 9.7.1.
+The project uses Java 25 and the included Gradle 9.7.1 wrapper.
+
+Linux/macOS:
 
 ```bash
-gradle clean build
+./gradlew clean build
+```
+
+Windows:
+
+```bat
+gradlew.bat clean build
 ```
 
 The plugin JAR is created in `build/libs/`.

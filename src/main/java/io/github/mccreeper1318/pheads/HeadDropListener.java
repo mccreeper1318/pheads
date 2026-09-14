@@ -11,14 +11,22 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 final class HeadDropListener implements Listener {
 
-    private final HeadDropConfig config;
+    private HeadDropConfig config;
 
     HeadDropListener(HeadDropConfig config) {
         this.config = config;
     }
 
+    void setConfig(HeadDropConfig config) {
+        this.config = config;
+    }
+
     @EventHandler
     public void onEntityDeath(EntityDeathEvent event) {
+        if (event.getEntity().getKiller() == null) {
+            return;
+        }
+
         if (event.getEntity() instanceof Player player) {
             handlePlayerDeath(event, player);
             return;
