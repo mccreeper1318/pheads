@@ -1,0 +1,7 @@
+name: PHeads
+version: '${version}'
+main: io.github.mccreeper1318.pheads.PHeadsPlugin
+description: Configurable mob and player head drops for Paper.
+author: mccreeper1318
+website: https://github.com/mccreeper1318/pheads
+api-version: '26.2'
