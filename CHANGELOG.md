@@ -19,3 +19,7 @@
 - Head-drop rolls now only occur when the killed mob or player is credited to a player killer.
 - CI and release builds now use the checked-in Gradle wrapper.
 - Updated JUnit to 6.1.3 and `actions/checkout` to v7 through Dependabot.
+
+### Fixed
+
+- Prerelease tags now validate against the base project version and attach correctly named JAR and SHA-256 artifacts.
