@@ -26,6 +26,16 @@ jobs:
         uses: actions/checkout@v7
         with:
           ref: ${{ github.event.release.tag_name }}
+          fetch-depth: 0
+
+      - name: Verify release branch lineage
+        env:
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          git fetch --no-tags origin \
+            +refs/heads/main:refs/remotes/origin/main \
+            +refs/heads/dev:refs/remotes/origin/dev
+          .github/scripts/verify-release-lineage.sh "$TAG"
 
       - name: Set up Java 25
         uses: actions/setup-java@v6
