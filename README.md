@@ -83,7 +83,7 @@ The `pheads.reload` permission defaults to server operators.
 
 ### Custom-textured mob heads
 
-The following mobs drop a `PLAYER_HEAD` with bundled Minecraft texture data and a mob-specific display name:
+The following mobs drop a `PLAYER_HEAD` with a fixed Minecraft texture reference and a mob-specific display name:
 
 - Pig
 - Cow
@@ -106,7 +106,9 @@ The following mobs drop a `PLAYER_HEAD` with bundled Minecraft texture data and 
 - Axolotl
 - Sniffer
 
-The plugin does not call an external head API to create these items. It uses bundled references to Minecraft texture data.
+The plugin does not call an external head API to create these items. It stores fixed profile/texture references that Minecraft resolves through `textures.minecraft.net`.
+
+The custom mob-head profile data is adapted from Vanilla Tweaks' **More Mob Heads** data pack under the Vanilla Tweaks project terms. Required attribution is in [`credits.txt`](credits.txt), and the exact canonical variant, texture hash, source path, and pinned source blob for every custom head are documented in [`docs/HEAD_TEXTURE_SOURCES.md`](docs/HEAD_TEXTURE_SOURCES.md).
 
 For mobs that have visual variants, 0.0.2 currently uses one canonical head appearance per mob type. Variant-specific collectible heads can be added separately in a future release.
 

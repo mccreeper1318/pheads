@@ -5,10 +5,12 @@
 ### Added
 
 - Added configurable custom-textured heads for pigs, cows, mooshrooms, sheep, chickens, rabbits, horses, donkeys, mules, goats, llamas, camels, cats, wolves, foxes, bees, turtles, frogs, axolotls, and sniffers.
+- Added per-head texture provenance documentation and required Vanilla Tweaks attribution.
 
 ### Changed
 
 - Existing 0.0.1 configurations remain valid; newly added mob head chances default to 2.5% when omitted.
+- Custom mob-head profile references are sourced from Vanilla Tweaks More Mob Heads with each source file pinned to an exact snapshot blob.
 
 ## 0.0.1
 
