@@ -62,7 +62,12 @@ final class HeadDropConfig {
         Map<HeadType, Double> mobChances = new EnumMap<>(HeadType.class);
         for (HeadType headType : HeadType.values()) {
             String path = "heads." + headType.configKey();
-            mobChances.put(headType, readPercent(config, path));
+            Object configuredValue = config.get(path, null);
+            if (configuredValue == null && !headType.requiredInConfig()) {
+                mobChances.put(headType, headType.defaultChance());
+            } else {
+                mobChances.put(headType, readPercent(config, path));
+            }
         }
 
         boolean playerHeadsEnabled = readBoolean(config, PLAYER_HEADS_ENABLED_PATH);

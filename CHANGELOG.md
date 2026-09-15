@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.0.2
+
+### Added
+
+- Added configurable custom-textured heads for pigs, cows, mooshrooms, sheep, chickens, rabbits, horses, donkeys, mules, goats, llamas, camels, cats, wolves, foxes, bees, turtles, frogs, axolotls, and sniffers.
+
+### Changed
+
+- Existing 0.0.1 configurations remain valid; newly added mob head chances default to 2.5% when omitted.
+
 ## 0.0.1
 
 ### Added
