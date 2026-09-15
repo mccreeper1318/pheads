@@ -1,0 +1,14 @@
+# Drop chances are percentages from 0.0 to 100.0.
+# PHeads adds its configured drops without removing vanilla drops.
+heads:
+  creeper: 2.5
+  zombie: 2.5
+  skeleton: 2.5
+  wither-skeleton: 2.5
+  piglin: 2.5
+  ender-dragon: 100.0
+
+player-heads:
+  # Disabled by default. When enabled, player deaths can drop that player's head.
+  enabled: false
+  drop-chance-percent: 100.0
