@@ -9,9 +9,13 @@ api-version: '26.2'
 commands:
   pheads:
     description: Manage PHeads.
-    usage: /pheads reload
+    aliases: [ph]
+    usage: /pheads reload | /ph give <mob-head>
 
 permissions:
   pheads.reload:
     description: Allows reloading the PHeads configuration.
+    default: op
+  pheads.give:
+    description: Allows giving yourself supported PHeads mob heads.
     default: op

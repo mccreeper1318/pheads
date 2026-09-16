@@ -6,6 +6,7 @@
 
 - Added configurable custom-textured heads for pigs, cows, mooshrooms, sheep, chickens, rabbits, horses, donkeys, mules, goats, llamas, camels, cats, wolves, foxes, bees, turtles, frogs, axolotls, and sniffers.
 - Added per-head texture provenance documentation and required Vanilla Tweaks attribution.
+- Added the `/ph` command alias and `/ph give <mob-head>` for operators to give themselves any supported mob head.
 
 ### Changed
 

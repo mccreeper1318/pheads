@@ -61,11 +61,14 @@ Existing 0.0.1 configuration files remain valid in 0.0.2. If a newly added mob k
 
 ## Commands
 
+`/ph` is the short alias for `/pheads`.
+
 | Command | Description | Permission |
 | --- | --- | --- |
 | `/pheads reload` | Reloads `config.yml` without restarting the server. | `pheads.reload` |
+| `/ph give <mob-head>` | Gives the executing player one supported mob head. | `pheads.give` |
 
-The `pheads.reload` permission defaults to server operators.
+Both command permissions default to server operators. Supported mob-head names are available through tab completion.
 
 ## Supported heads
 
