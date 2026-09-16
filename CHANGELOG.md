@@ -13,6 +13,10 @@
 - Existing 0.0.1 configurations remain valid; newly added mob head chances default to 2.5% when omitted.
 - Custom mob-head profile references are sourced from Vanilla Tweaks More Mob Heads with each source file pinned to an exact snapshot blob.
 
+### Fixed
+
+- Head-drop handling now ignores already-cancelled death events to avoid modifying drops another plugin has cancelled.
+
 ## 0.0.1
 
 ### Added

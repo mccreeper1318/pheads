@@ -59,7 +59,7 @@ final class HeadDropListener implements Listener {
                 event.getPlayer().getUniqueId());
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onEntityDeath(EntityDeathEvent event) {
         if (!isPlayerAttributed(event)) {
             return;
