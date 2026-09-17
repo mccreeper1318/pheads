@@ -48,6 +48,28 @@ class HeadDropConfigTest {
     }
 
     @Test
+    void explicitNullNewHeadChancesAreRejected() {
+        String[] invalidPigDeclarations = {
+            "  pig:\n",
+            "  pig: null\n",
+            "  pig: ~\n",
+            "  pig: # intentionally blank\n"
+        };
+
+        for (String pigDeclaration : invalidPigDeclarations) {
+            String invalid = VALID_0_0_1_CONFIG.replace(
+                    "  ender-dragon: 100.0\n",
+                    "  ender-dragon: 100.0\n" + pigDeclaration);
+
+            HeadDropConfigException exception = assertThrows(
+                    HeadDropConfigException.class,
+                    () -> HeadDropConfig.parse(invalid));
+
+            assertTrue(exception.getMessage().contains("heads.pig"));
+        }
+    }
+
+    @Test
     void malformedYamlIsRejected() {
         HeadDropConfigException exception = assertThrows(
                 HeadDropConfigException.class,

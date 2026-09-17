@@ -16,6 +16,7 @@
 ### Fixed
 
 - Head-drop handling now ignores already-cancelled death events to avoid modifying drops another plugin has cancelled.
+- Explicit null or blank values for newly added 0.0.2 head chances are rejected instead of silently using the 2.5% compatibility default.
 
 ## 0.0.1
 
