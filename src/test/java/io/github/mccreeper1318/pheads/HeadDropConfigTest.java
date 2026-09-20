@@ -81,7 +81,7 @@ class HeadDropConfigTest {
 
         for (String headsDeclaration : headsDeclarations) {
             String invalid = VALID_0_0_1_CONFIG
-                    .replace("heads:\n", headsDeclaration)
+                    .replace("heads:\n  creeper:", headsDeclaration + "  creeper:")
                     .replace(
                             "  ender-dragon: 100.0\n",
                             "  ender-dragon: 100.0\n  pig: null\n");
