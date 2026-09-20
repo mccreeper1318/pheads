@@ -73,6 +73,29 @@ class HeadDropConfigTest {
     }
 
     @Test
+    void explicitNullNewHeadChanceUnderQuotedHeadsSectionIsRejected() {
+        String[] headsDeclarations = {
+            "\"heads\":\n",
+            "'heads':\n",
+            "\"he\\u0061ds\":\n"
+        };
+
+        for (String headsDeclaration : headsDeclarations) {
+            String invalid = VALID_0_0_1_CONFIG
+                    .replace("heads:\n", headsDeclaration)
+                    .replace(
+                            "  ender-dragon: 100.0\n",
+                            "  ender-dragon: 100.0\n  pig: null\n");
+
+            HeadDropConfigException exception = assertThrows(
+                    HeadDropConfigException.class,
+                    () -> HeadDropConfig.parse(invalid));
+
+            assertTrue(exception.getMessage().contains("heads.pig"));
+        }
+    }
+
+    @Test
     void malformedYamlIsRejected() {
         HeadDropConfigException exception = assertThrows(
                 HeadDropConfigException.class,

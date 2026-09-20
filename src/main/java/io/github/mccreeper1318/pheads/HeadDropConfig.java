@@ -153,14 +153,14 @@ final class HeadDropConfig {
             String trimmed = line.substring(indent).trim();
 
             if (headsIndent < 0) {
-                if (indent == 0 && "heads:".equals(trimmed)) {
+                if (indent == 0 && isHeadsSectionDeclaration(trimmed)) {
                     headsIndent = indent;
                 }
                 continue;
             }
 
             if (indent <= headsIndent) {
-                headsIndent = indent == 0 && "heads:".equals(trimmed) ? indent : -1;
+                headsIndent = indent == 0 && isHeadsSectionDeclaration(trimmed) ? indent : -1;
                 continue;
             }
 
@@ -188,6 +188,15 @@ final class HeadDropConfig {
         }
 
         return Set.copyOf(explicitlyNullPaths);
+    }
+
+    private static boolean isHeadsSectionDeclaration(String trimmed) {
+        if (!trimmed.endsWith(":")) {
+            return false;
+        }
+
+        String keySource = trimmed.substring(0, trimmed.length() - 1).trim();
+        return "heads".equals(normalizeYamlKey(keySource));
     }
 
     private static String normalizeYamlKey(String keySource) {
