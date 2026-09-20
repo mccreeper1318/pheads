@@ -56,22 +56,35 @@ jobs:
             echo "Release tag $TAG has base version $RELEASE_BASE_VERSION, but the project version is $PROJECT_VERSION"
             exit 1
           fi
-          echo "PROJECT_VERSION=$PROJECT_VERSION" >> "$GITHUB_ENV"
 
       - name: Build release JAR
-        run: ./gradlew clean build --no-daemon
+        env:
+          TAG: ${{ github.event.release.tag_name }}
+        run: ./gradlew clean build --no-daemon -PreleaseVersion="$TAG"
+
+      - name: Verify embedded plugin version
+        env:
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          SOURCE_JAR="build/libs/pheads-$TAG.jar"
+          if [[ ! -f "$SOURCE_JAR" ]]; then
+            echo "Expected build output not found: $SOURCE_JAR"
+            exit 1
+          fi
+
+          PLUGIN_YML="$(unzip -p "$SOURCE_JAR" plugin.yml)"
+          if ! grep -Fxq "version: '$TAG'" <<<"$PLUGIN_YML"; then
+            echo "Built plugin.yml does not report release version $TAG"
+            echo "$PLUGIN_YML"
+            exit 1
+          fi
 
       - name: Create tagged release artifacts
         env:
           TAG: ${{ github.event.release.tag_name }}
         run: |
-          SOURCE_JAR="build/libs/pheads-$PROJECT_VERSION.jar"
+          SOURCE_JAR="build/libs/pheads-$TAG.jar"
           TARGET_JAR="build/release/pheads-$TAG.jar"
-
-          if [[ ! -f "$SOURCE_JAR" ]]; then
-            echo "Expected build output not found: $SOURCE_JAR"
-            exit 1
-          fi
 
           mkdir -p build/release
           cp "$SOURCE_JAR" "$TARGET_JAR"

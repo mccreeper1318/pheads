@@ -12,6 +12,7 @@
 
 - Existing 0.0.1 configurations remain valid; newly added mob head chances default to 2.5% when omitted.
 - Custom mob-head profile references are sourced from Vanilla Tweaks More Mob Heads with each source file pinned to an exact snapshot blob.
+- Release builds now embed the full stable or prerelease tag in `plugin.yml`, so Paper reports alpha, beta, RC, and stable versions correctly.
 
 ### Fixed
 

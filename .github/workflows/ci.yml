@@ -30,6 +30,9 @@ jobs:
       - name: Run tests
         run: ./gradlew test --no-daemon
 
+      - name: Verify release build versions
+        run: ./.github/scripts/test-build-version.sh
+
   build:
     name: Build
     needs: test
