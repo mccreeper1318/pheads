@@ -169,7 +169,7 @@ final class HeadDropConfig {
                 continue;
             }
 
-            String key = trimmed.substring(0, colonIndex).trim();
+            String key = normalizeYamlKey(trimmed.substring(0, colonIndex).trim());
             HeadType matchingHeadType = null;
             for (HeadType headType : HeadType.values()) {
                 if (!headType.requiredInConfig() && headType.configKey().equals(key)) {
@@ -188,6 +188,18 @@ final class HeadDropConfig {
         }
 
         return Set.copyOf(explicitlyNullPaths);
+    }
+
+    private static String normalizeYamlKey(String keySource) {
+        YamlConfiguration keyConfig = new YamlConfiguration();
+        try {
+            keyConfig.loadFromString(keySource + ": true");
+        } catch (InvalidConfigurationException exception) {
+            return keySource;
+        }
+
+        Set<String> keys = keyConfig.getKeys(false);
+        return keys.size() == 1 ? keys.iterator().next() : keySource;
     }
 
     private static int leadingSpaces(String value) {

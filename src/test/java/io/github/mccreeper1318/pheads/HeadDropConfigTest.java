@@ -53,7 +53,10 @@ class HeadDropConfigTest {
             "  pig:\n",
             "  pig: null\n",
             "  pig: ~\n",
-            "  pig: # intentionally blank\n"
+            "  pig: # intentionally blank\n",
+            "  \"pig\": null\n",
+            "  'pig': null\n",
+            "  \"p\\u0069g\": null\n"
         };
 
         for (String pigDeclaration : invalidPigDeclarations) {
