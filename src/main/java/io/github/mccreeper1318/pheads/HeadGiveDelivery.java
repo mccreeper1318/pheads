@@ -1,22 +1,21 @@
 package io.github.mccreeper1318.pheads;
 
 import java.util.Map;
-import org.bukkit.inventory.ItemStack;
 
 final class HeadGiveDelivery {
 
     private HeadGiveDelivery() {}
 
-    static Result deliver(
-            ItemStack item,
-            InventoryAdder inventoryAdder,
-            WorldDropper worldDropper) {
-        Map<Integer, ItemStack> leftovers = inventoryAdder.add(item);
+    static <T> Result deliver(
+            T item,
+            InventoryAdder<T> inventoryAdder,
+            WorldDropper<T> worldDropper) {
+        Map<Integer, T> leftovers = inventoryAdder.add(item);
         if (leftovers.isEmpty()) {
             return Result.INVENTORY;
         }
 
-        for (ItemStack leftover : leftovers.values()) {
+        for (T leftover : leftovers.values()) {
             if (!worldDropper.drop(leftover)) {
                 return Result.FAILED;
             }
@@ -36,12 +35,12 @@ final class HeadGiveDelivery {
     }
 
     @FunctionalInterface
-    interface InventoryAdder {
-        Map<Integer, ItemStack> add(ItemStack item);
+    interface InventoryAdder<T> {
+        Map<Integer, T> add(T item);
     }
 
     @FunctionalInterface
-    interface WorldDropper {
-        boolean drop(ItemStack item);
+    interface WorldDropper<T> {
+        boolean drop(T item);
     }
 }

@@ -8,15 +8,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 import org.junit.jupiter.api.Test;
 
 class HeadGiveDeliveryTest {
 
     @Test
     void availableInventoryDoesNotUseWorldFallback() {
-        ItemStack head = new ItemStack(Material.CREEPER_HEAD);
+        Object head = new Object();
         AtomicInteger fallbackCalls = new AtomicInteger();
 
         HeadGiveDelivery.Result result = HeadGiveDelivery.deliver(
@@ -34,9 +32,9 @@ class HeadGiveDeliveryTest {
 
     @Test
     void fullInventoryFallsBackToSingleWorldDrop() {
-        ItemStack head = new ItemStack(Material.CREEPER_HEAD);
+        Object head = new Object();
         AtomicInteger fallbackCalls = new AtomicInteger();
-        AtomicReference<ItemStack> dropped = new AtomicReference<>();
+        AtomicReference<Object> dropped = new AtomicReference<>();
 
         HeadGiveDelivery.Result result = HeadGiveDelivery.deliver(
                 head,
@@ -55,7 +53,7 @@ class HeadGiveDeliveryTest {
 
     @Test
     void cancelledFallbackSpawnReportsDeliveryFailureWithoutRetry() {
-        ItemStack head = new ItemStack(Material.CREEPER_HEAD);
+        Object head = new Object();
         AtomicInteger fallbackCalls = new AtomicInteger();
 
         HeadGiveDelivery.Result result = HeadGiveDelivery.deliver(
