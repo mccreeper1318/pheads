@@ -87,8 +87,18 @@ final class PHeadsCommand implements CommandExecutor, TabCompleter {
             return true;
         }
 
-        var leftovers = player.getInventory().addItem(HeadItemFactory.create(headType));
-        leftovers.values().forEach(item -> player.getWorld().dropItemNaturally(player.getLocation(), item));
+        HeadGiveDelivery.Result delivery = HeadGiveDelivery.deliver(
+                HeadItemFactory.create(headType),
+                item -> player.getInventory().addItem(item),
+                item -> player.getWorld().dropItemNaturally(player.getLocation(), item).isValid());
+
+        if (!delivery.successful()) {
+            sender.sendMessage(
+                    "Could not give you 1 " + headType.displayName()
+                            + ": your inventory is full and the fallback item spawn was blocked.");
+            return true;
+        }
+
         sender.sendMessage("Gave you 1 " + headType.displayName() + ".");
         return true;
     }
