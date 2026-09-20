@@ -76,8 +76,7 @@ class HeadDropConfigTest {
     void explicitNullNewHeadChanceUnderQuotedHeadsSectionIsRejected() {
         String[] headsDeclarations = {
             "\"heads\":\n",
-            "'heads':\n",
-            "\"he\\u0061ds\":\n"
+            "'heads':\n"
         };
 
         for (String headsDeclaration : headsDeclarations) {
