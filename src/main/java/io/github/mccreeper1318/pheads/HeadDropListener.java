@@ -76,7 +76,7 @@ final class HeadDropListener implements Listener {
         }
 
         if (shouldDrop(config.chanceFor(headType))) {
-            event.getDrops().add(HeadItemFactory.create(headType));
+            event.getDrops().add(HeadItemFactory.create(headType, event.getEntity()));
         }
     }
 

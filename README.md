@@ -49,6 +49,61 @@ heads:
   frog: 2.5
   axolotl: 2.5
   sniffer: 2.5
+  allay: 2.5
+  armadillo: 2.5
+  bat: 2.5
+  cod: 2.5
+  dolphin: 2.5
+  glow-squid: 2.5
+  iron-golem: 2.5
+  ocelot: 2.5
+  panda: 2.5
+  parrot: 2.5
+  polar-bear: 2.5
+  pufferfish: 2.5
+  salmon: 2.5
+  skeleton-horse: 2.5
+  snow-golem: 2.5
+  squid: 2.5
+  strider: 2.5
+  tadpole: 2.5
+  trader-llama: 2.5
+  tropical-fish: 2.5
+  villager: 2.5
+  wandering-trader: 2.5
+  zombie-horse: 2.5
+  blaze: 2.5
+  bogged: 2.5
+  breeze: 2.5
+  cave-spider: 2.5
+  drowned: 2.5
+  elder-guardian: 2.5
+  enderman: 2.5
+  endermite: 2.5
+  evoker: 2.5
+  ghast: 2.5
+  guardian: 2.5
+  hoglin: 2.5
+  husk: 2.5
+  illusioner: 2.5
+  magma-cube: 2.5
+  phantom: 2.5
+  piglin-brute: 2.5
+  pillager: 2.5
+  ravager: 2.5
+  shulker: 2.5
+  silverfish: 2.5
+  slime: 2.5
+  spider: 2.5
+  stray: 2.5
+  vex: 2.5
+  vindicator: 2.5
+  warden: 2.5
+  witch: 2.5
+  wither: 2.5
+  zoglin: 2.5
+  zombie-villager: 2.5
+  zombified-piglin: 2.5
 
 player-heads:
   enabled: false
@@ -57,7 +112,7 @@ player-heads:
 
 PHeads adds configured drops without removing or replacing vanilla drops.
 
-Existing 0.0.1 configuration files remain valid in 0.0.2. If a newly added mob key is absent from an older configuration, PHeads uses a `2.5%` drop chance for that mob until the key is added to `config.yml`.
+Existing configuration files from earlier releases remain valid in 0.0.3. If a newly added mob key is absent from an older configuration, PHeads uses a `2.5%` drop chance for that mob until the key is added to `config.yml`.
 
 ## Commands
 
@@ -86,7 +141,7 @@ Both command permissions default to server operators. Supported mob-head names a
 
 ### Custom-textured mob heads
 
-The following mobs drop a `PLAYER_HEAD` with a fixed Minecraft texture reference and a mob-specific display name:
+The following 75 mobs drop a `PLAYER_HEAD` with a fixed Minecraft texture reference and a mob-specific display name:
 
 - Pig
 - Cow
@@ -108,12 +163,71 @@ The following mobs drop a `PLAYER_HEAD` with a fixed Minecraft texture reference
 - Frog
 - Axolotl
 - Sniffer
+- Allay
+- Armadillo
+- Bat
+- Cod
+- Dolphin
+- Glow Squid
+- Iron Golem
+- Ocelot
+- Panda
+- Parrot
+- Polar Bear
+- Pufferfish
+- Salmon
+- Skeleton Horse
+- Snow Golem
+- Squid
+- Strider
+- Tadpole
+- Trader Llama
+- Tropical Fish
+- Villager
+- Wandering Trader
+- Zombie Horse
+- Blaze
+- Bogged
+- Breeze
+- Cave Spider
+- Drowned
+- Elder Guardian
+- Enderman
+- Endermite
+- Evoker
+- Ghast
+- Guardian
+- Hoglin
+- Husk
+- Illusioner
+- Magma Cube
+- Phantom
+- Piglin Brute
+- Pillager
+- Ravager
+- Shulker
+- Silverfish
+- Slime
+- Spider
+- Stray
+- Vex
+- Vindicator
+- Warden
+- Witch
+- Wither
+- Zoglin
+- Zombie Villager
+- Zombified Piglin
 
 The plugin does not call an external head API to create these items. It stores fixed profile/texture references that Minecraft resolves through `textures.minecraft.net`.
 
 The custom mob-head profile data is adapted from Vanilla Tweaks' **More Mob Heads** data pack under the Vanilla Tweaks project terms. Required attribution is in [`credits.txt`](credits.txt), and the exact canonical variant, texture hash, source path, and pinned source blob for every custom head are documented in [`docs/HEAD_TEXTURE_SOURCES.md`](docs/HEAD_TEXTURE_SOURCES.md).
 
-For mobs that have visual variants, 0.0.2 currently uses one canonical head appearance per mob type. Variant-specific collectible heads can be added separately in a future release.
+Natural drops use the killed mob's matching persistent variant when the pinned texture source provides one. Variant-aware mobs currently include sheep, cats, wolves, frogs, axolotls, rabbits, horses, llamas and trader llamas, parrots, pandas, foxes, mooshrooms, villagers, zombie villagers, and goats.
+
+Variant selection intentionally ignores temporary states such as wolf anger, bee nectar/anger, strider cold state, and Vex charging. Horse heads currently distinguish color but not markings because the pinned source only provides color-specific horse heads. Villager and zombie-villager heads currently distinguish profession, not biome type. Name-driven Easter eggs such as `jeb_` sheep and Toast rabbits are not treated as normal entity variants.
+
+The operator command `/ph give <mob-head>` continues to give the canonical/default appearance for that mob.
 
 Player heads use the killed player's profile so the dropped head keeps that player's skin.
 

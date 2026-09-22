@@ -31,6 +31,8 @@ class HeadDropConfigTest {
         assertEquals(100.0D, config.chanceFor(HeadType.ENDER_DRAGON));
         assertEquals(2.5D, config.chanceFor(HeadType.PIG));
         assertEquals(2.5D, config.chanceFor(HeadType.SNIFFER));
+        assertEquals(2.5D, config.chanceFor(HeadType.ALLAY));
+        assertEquals(2.5D, config.chanceFor(HeadType.WITHER));
         assertFalse(config.playerHeadsEnabled());
         assertEquals(100.0D, config.playerHeadChance());
     }
@@ -45,6 +47,19 @@ class HeadDropConfigTest {
 
         assertEquals(7.5D, config.chanceFor(HeadType.PIG));
         assertEquals(2.5D, config.chanceFor(HeadType.COW));
+    }
+
+
+    @Test
+    void zeroZeroThreeHeadChanceCanBeConfiguredIndependently() throws Exception {
+        String configured = VALID_0_0_1_CONFIG.replace(
+                "  ender-dragon: 100.0\n",
+                "  ender-dragon: 100.0\n  warden: 7.5\n");
+
+        HeadDropConfig config = HeadDropConfig.parse(configured);
+
+        assertEquals(7.5D, config.chanceFor(HeadType.WARDEN));
+        assertEquals(2.5D, config.chanceFor(HeadType.ALLAY));
     }
 
     @Test
