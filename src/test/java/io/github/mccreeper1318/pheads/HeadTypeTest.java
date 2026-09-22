@@ -157,5 +157,8 @@ class HeadTypeTest {
         assertFalse(
                 HeadItemFactory.profileIdFor(HeadType.PIG)
                         .equals(HeadItemFactory.profileIdFor(HeadType.COW)));
+        assertFalse(
+                HeadItemFactory.profileIdFor(HeadType.SHEEP)
+                        .equals(HeadItemFactory.profileIdFor(HeadType.SHEEP, "red")));
     }
 }

@@ -223,7 +223,11 @@ The plugin does not call an external head API to create these items. It stores f
 
 The custom mob-head profile data is adapted from Vanilla Tweaks' **More Mob Heads** data pack under the Vanilla Tweaks project terms. Required attribution is in [`credits.txt`](credits.txt), and the exact canonical variant, texture hash, source path, and pinned source blob for every custom head are documented in [`docs/HEAD_TEXTURE_SOURCES.md`](docs/HEAD_TEXTURE_SOURCES.md).
 
-For mobs that have visual variants, PHeads currently uses one canonical head appearance per mob type. Variant-specific collectible heads are planned separately.
+Natural drops use the killed mob's matching persistent variant when the pinned texture source provides one. Variant-aware mobs currently include sheep, cats, wolves, frogs, axolotls, rabbits, horses, llamas and trader llamas, parrots, pandas, foxes, mooshrooms, villagers, zombie villagers, and goats.
+
+Variant selection intentionally ignores temporary states such as wolf anger, bee nectar/anger, strider cold state, and Vex charging. Horse heads currently distinguish color but not markings because the pinned source only provides color-specific horse heads. Villager and zombie-villager heads currently distinguish profession, not biome type. Name-driven Easter eggs such as `jeb_` sheep and Toast rabbits are not treated as normal entity variants.
+
+The operator command `/ph give <mob-head>` continues to give the canonical/default appearance for that mob.
 
 Player heads use the killed player's profile so the dropped head keeps that player's skin.
 

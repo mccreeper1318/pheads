@@ -6,10 +6,12 @@
 
 - Added configurable custom-textured heads for 55 additional mobs across passive, aquatic, utility, neutral, and hostile mob types.
 - Added pinned Vanilla Tweaks texture provenance for every new 0.0.3 mob head.
+- Added variant-aware head textures for supported persistent mob variants, including colors, breeds/types, professions, panda genes, and screaming goats.
 
 ### Changed
 
 - Existing configurations remain valid; newly added 0.0.3 head chances default to 2.5% when omitted.
+- Natural mob-head drops now match the killed mob's supported persistent variant while `/ph give <mob-head>` continues giving the canonical head.
 
 ## 0.0.2
 
