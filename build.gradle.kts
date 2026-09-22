@@ -3,7 +3,18 @@ plugins {
 }
 
 group = "io.github.mccreeper1318"
-version = "0.0.1"
+val baseVersion = "0.0.2"
+val releaseVersion = providers.gradleProperty("releaseVersion").orNull
+if (releaseVersion != null) {
+    val supportedReleaseVersion =
+        Regex("^" + Regex.escape(baseVersion) + "(?:-(?:alpha|beta|rc)\\.\\d+)?$")
+    if (!supportedReleaseVersion.matches(releaseVersion)) {
+        throw GradleException(
+            "releaseVersion must be $baseVersion, $baseVersion-alpha.x, $baseVersion-beta.x, or $baseVersion-rc.x"
+        )
+    }
+}
+version = releaseVersion ?: baseVersion
 
 repositories {
     mavenCentral()

@@ -1,6 +1,6 @@
 # PHeads
 
-PHeads is a lightweight Paper plugin that adds configurable head drops for mobs with vanilla head items. Player head drops are also supported and are disabled by default.
+PHeads is a lightweight Paper plugin that adds configurable head drops for supported mobs. Mobs with native Minecraft head items keep those real items, while supported mobs without native heads use custom-textured player heads. Optional player head drops are also supported and are disabled by default.
 
 PHeads only rolls its configured head drops when the killed mob or player is credited to a player killer. Environmental deaths, mob kills, and other deaths without a player killer do not trigger PHeads drops.
 
@@ -29,6 +29,26 @@ heads:
   wither-skeleton: 2.5
   piglin: 2.5
   ender-dragon: 100.0
+  pig: 2.5
+  cow: 2.5
+  mooshroom: 2.5
+  sheep: 2.5
+  chicken: 2.5
+  rabbit: 2.5
+  horse: 2.5
+  donkey: 2.5
+  mule: 2.5
+  goat: 2.5
+  llama: 2.5
+  camel: 2.5
+  cat: 2.5
+  wolf: 2.5
+  fox: 2.5
+  bee: 2.5
+  turtle: 2.5
+  frog: 2.5
+  axolotl: 2.5
+  sniffer: 2.5
 
 player-heads:
   enabled: false
@@ -37,15 +57,22 @@ player-heads:
 
 PHeads adds configured drops without removing or replacing vanilla drops.
 
+Existing 0.0.1 configuration files remain valid in 0.0.2. If a newly added mob key is absent from an older configuration, PHeads uses a `2.5%` drop chance for that mob until the key is added to `config.yml`.
+
 ## Commands
+
+`/ph` is the short alias for `/pheads`.
 
 | Command | Description | Permission |
 | --- | --- | --- |
 | `/pheads reload` | Reloads `config.yml` without restarting the server. | `pheads.reload` |
+| `/ph give <mob-head>` | Gives the executing player one supported mob head. | `pheads.give` |
 
-The `pheads.reload` permission defaults to server operators.
+Both command permissions default to server operators. Supported mob-head names are available through tab completion.
 
 ## Supported heads
+
+### Native Minecraft heads
 
 | Entity | Dropped item |
 | --- | --- |
@@ -56,6 +83,37 @@ The `pheads.reload` permission defaults to server operators.
 | Piglin | Piglin Head |
 | Ender Dragon | Dragon Head |
 | Player | Player Head, when enabled |
+
+### Custom-textured mob heads
+
+The following mobs drop a `PLAYER_HEAD` with a fixed Minecraft texture reference and a mob-specific display name:
+
+- Pig
+- Cow
+- Mooshroom
+- Sheep
+- Chicken
+- Rabbit
+- Horse
+- Donkey
+- Mule
+- Goat
+- Llama
+- Camel
+- Cat
+- Wolf
+- Fox
+- Bee
+- Turtle
+- Frog
+- Axolotl
+- Sniffer
+
+The plugin does not call an external head API to create these items. It stores fixed profile/texture references that Minecraft resolves through `textures.minecraft.net`.
+
+The custom mob-head profile data is adapted from Vanilla Tweaks' **More Mob Heads** data pack under the Vanilla Tweaks project terms. Required attribution is in [`credits.txt`](credits.txt), and the exact canonical variant, texture hash, source path, and pinned source blob for every custom head are documented in [`docs/HEAD_TEXTURE_SOURCES.md`](docs/HEAD_TEXTURE_SOURCES.md).
+
+For mobs that have visual variants, 0.0.2 currently uses one canonical head appearance per mob type. Variant-specific collectible heads can be added separately in a future release.
 
 Player heads use the killed player's profile so the dropped head keeps that player's skin.
 

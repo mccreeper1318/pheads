@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.0.2
+
+### Added
+
+- Added configurable custom-textured heads for pigs, cows, mooshrooms, sheep, chickens, rabbits, horses, donkeys, mules, goats, llamas, camels, cats, wolves, foxes, bees, turtles, frogs, axolotls, and sniffers.
+- Added per-head texture provenance documentation and required Vanilla Tweaks attribution.
+- Added the `/ph` command alias and `/ph give <mob-head>` for operators to give themselves any supported mob head.
+
+### Changed
+
+- Existing 0.0.1 configurations remain valid; newly added mob head chances default to 2.5% when omitted.
+- Custom mob-head profile references are sourced from Vanilla Tweaks More Mob Heads with each source file pinned to an exact snapshot blob.
+- Release builds now embed the full stable or prerelease tag in `plugin.yml`, so Paper reports alpha, beta, RC, and stable versions correctly.
+
+### Fixed
+
+- Head-drop handling now ignores already-cancelled death events to avoid modifying drops another plugin has cancelled.
+- Explicit null or blank values for newly added 0.0.2 head chances are rejected instead of silently using the 2.5% compatibility default.
+- `/ph give <mob-head>` now reports a failure when a full-inventory fallback item spawn is blocked instead of claiming the head was given.
+
 ## 0.0.1
 
 ### Added

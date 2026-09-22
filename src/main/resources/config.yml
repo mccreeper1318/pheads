@@ -7,6 +7,26 @@ heads:
   wither-skeleton: 2.5
   piglin: 2.5
   ender-dragon: 100.0
+  pig: 2.5
+  cow: 2.5
+  mooshroom: 2.5
+  sheep: 2.5
+  chicken: 2.5
+  rabbit: 2.5
+  horse: 2.5
+  donkey: 2.5
+  mule: 2.5
+  goat: 2.5
+  llama: 2.5
+  camel: 2.5
+  cat: 2.5
+  wolf: 2.5
+  fox: 2.5
+  bee: 2.5
+  turtle: 2.5
+  frog: 2.5
+  axolotl: 2.5
+  sniffer: 2.5
 
 player-heads:
   # Disabled by default. When enabled, player deaths can drop that player's head.

@@ -59,7 +59,7 @@ final class HeadDropListener implements Listener {
                 event.getPlayer().getUniqueId());
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onEntityDeath(EntityDeathEvent event) {
         if (!isPlayerAttributed(event)) {
             return;
@@ -76,7 +76,7 @@ final class HeadDropListener implements Listener {
         }
 
         if (shouldDrop(config.chanceFor(headType))) {
-            event.getDrops().add(new ItemStack(headType.material()));
+            event.getDrops().add(HeadItemFactory.create(headType));
         }
     }
 

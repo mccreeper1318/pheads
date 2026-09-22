@@ -51,10 +51,12 @@ final class HeadDropConfig {
             throw new HeadDropConfigException("config.yml contains invalid YAML.", exception);
         }
 
-        return from(config);
+        return from(config, findExplicitlyNullOptionalHeadValues(contents));
     }
 
-    static HeadDropConfig from(FileConfiguration config) throws HeadDropConfigException {
+    private static HeadDropConfig from(
+            FileConfiguration config,
+            Set<String> explicitlyNullOptionalHeadValues) throws HeadDropConfigException {
         validateKnownKeys(config);
         requireSection(config, "heads");
         requireSection(config, "player-heads");
@@ -62,7 +64,16 @@ final class HeadDropConfig {
         Map<HeadType, Double> mobChances = new EnumMap<>(HeadType.class);
         for (HeadType headType : HeadType.values()) {
             String path = "heads." + headType.configKey();
-            mobChances.put(headType, readPercent(config, path));
+            Object configuredValue = config.get(path, null);
+            if (configuredValue == null && !headType.requiredInConfig()) {
+                if (explicitlyNullOptionalHeadValues.contains(path)) {
+                    throw new HeadDropConfigException(
+                            "Configuration value '" + path + "' must be a number from 0 to 100.");
+                }
+                mobChances.put(headType, headType.defaultChance());
+            } else {
+                mobChances.put(headType, readPercent(config, path));
+            }
         }
 
         boolean playerHeadsEnabled = readBoolean(config, PLAYER_HEADS_ENABLED_PATH);
@@ -126,6 +137,129 @@ final class HeadDropConfig {
             throw new HeadDropConfigException("Missing required configuration value '" + path + "'.");
         }
         return value;
+    }
+
+    private static Set<String> findExplicitlyNullOptionalHeadValues(String contents) {
+        Set<String> explicitlyNullPaths = new HashSet<>();
+        int headsIndent = -1;
+
+        for (String rawLine : contents.split("\\R", -1)) {
+            String line = stripYamlComment(rawLine);
+            if (line.isBlank()) {
+                continue;
+            }
+
+            int indent = leadingSpaces(line);
+            String trimmed = line.substring(indent).trim();
+
+            if (headsIndent < 0) {
+                if (indent == 0 && isHeadsSectionDeclaration(trimmed)) {
+                    headsIndent = indent;
+                }
+                continue;
+            }
+
+            if (indent <= headsIndent) {
+                headsIndent = indent == 0 && isHeadsSectionDeclaration(trimmed) ? indent : -1;
+                continue;
+            }
+
+            int colonIndex = trimmed.indexOf(':');
+            if (colonIndex <= 0) {
+                continue;
+            }
+
+            String key = normalizeYamlKey(trimmed.substring(0, colonIndex).trim());
+            HeadType matchingHeadType = null;
+            for (HeadType headType : HeadType.values()) {
+                if (!headType.requiredInConfig() && headType.configKey().equals(key)) {
+                    matchingHeadType = headType;
+                    break;
+                }
+            }
+            if (matchingHeadType == null) {
+                continue;
+            }
+
+            String scalar = trimmed.substring(colonIndex + 1).trim();
+            if (scalar.isEmpty() || "~".equals(scalar) || "null".equalsIgnoreCase(scalar)) {
+                explicitlyNullPaths.add("heads." + matchingHeadType.configKey());
+            }
+        }
+
+        return Set.copyOf(explicitlyNullPaths);
+    }
+
+    private static boolean isHeadsSectionDeclaration(String trimmed) {
+        int colonIndex = trimmed.indexOf(':');
+        if (colonIndex <= 0) {
+            return false;
+        }
+
+        String keySource = trimmed.substring(0, colonIndex).trim();
+        if (!"heads".equals(normalizeYamlKey(keySource))) {
+            return false;
+        }
+
+        String nodeProperties = trimmed.substring(colonIndex + 1).trim();
+        return nodeProperties.isEmpty()
+                || nodeProperties.startsWith("&")
+                || nodeProperties.startsWith("!");
+    }
+
+    private static String normalizeYamlKey(String keySource) {
+        YamlConfiguration keyConfig = new YamlConfiguration();
+        try {
+            keyConfig.loadFromString(keySource + ": true");
+        } catch (InvalidConfigurationException exception) {
+            return keySource;
+        }
+
+        Set<String> keys = keyConfig.getKeys(false);
+        return keys.size() == 1 ? keys.iterator().next() : keySource;
+    }
+
+    private static int leadingSpaces(String value) {
+        int index = 0;
+        while (index < value.length() && value.charAt(index) == ' ') {
+            index++;
+        }
+        return index;
+    }
+
+    private static String stripYamlComment(String line) {
+        boolean inSingleQuotes = false;
+        boolean inDoubleQuotes = false;
+
+        for (int index = 0; index < line.length(); index++) {
+            char current = line.charAt(index);
+
+            if (current == '\'' && !inDoubleQuotes) {
+                if (inSingleQuotes && index + 1 < line.length() && line.charAt(index + 1) == '\'') {
+                    index++;
+                    continue;
+                }
+                inSingleQuotes = !inSingleQuotes;
+                continue;
+            }
+
+            if (current == '"' && !inSingleQuotes) {
+                boolean escaped = index > 0 && line.charAt(index - 1) == '\\';
+                if (!escaped) {
+                    inDoubleQuotes = !inDoubleQuotes;
+                }
+                continue;
+            }
+
+            if (current == '#'
+                    && !inSingleQuotes
+                    && !inDoubleQuotes
+                    && (index == 0 || Character.isWhitespace(line.charAt(index - 1)))) {
+                return line.substring(0, index);
+            }
+        }
+
+        return line;
     }
 
     private static Set<String> createAllowedKeys() {

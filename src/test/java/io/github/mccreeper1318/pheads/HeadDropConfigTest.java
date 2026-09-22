@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 class HeadDropConfigTest {
 
-    private static final String VALID_CONFIG = """
+    private static final String VALID_0_0_1_CONFIG = """
             heads:
               creeper: 2.5
               zombie: 2.5
@@ -24,13 +24,89 @@ class HeadDropConfigTest {
             """;
 
     @Test
-    void validConfigurationParses() throws Exception {
-        HeadDropConfig config = HeadDropConfig.parse(VALID_CONFIG);
+    void existingZeroZeroOneConfigurationParsesWithDefaultsForNewHeads() throws Exception {
+        HeadDropConfig config = HeadDropConfig.parse(VALID_0_0_1_CONFIG);
 
         assertEquals(2.5D, config.chanceFor(HeadType.CREEPER));
         assertEquals(100.0D, config.chanceFor(HeadType.ENDER_DRAGON));
+        assertEquals(2.5D, config.chanceFor(HeadType.PIG));
+        assertEquals(2.5D, config.chanceFor(HeadType.SNIFFER));
         assertFalse(config.playerHeadsEnabled());
         assertEquals(100.0D, config.playerHeadChance());
+    }
+
+    @Test
+    void newHeadChanceCanBeConfiguredIndependently() throws Exception {
+        String configured = VALID_0_0_1_CONFIG.replace(
+                "  ender-dragon: 100.0\n",
+                "  ender-dragon: 100.0\n  pig: 7.5\n");
+
+        HeadDropConfig config = HeadDropConfig.parse(configured);
+
+        assertEquals(7.5D, config.chanceFor(HeadType.PIG));
+        assertEquals(2.5D, config.chanceFor(HeadType.COW));
+    }
+
+    @Test
+    void explicitNullNewHeadChancesAreRejected() {
+        String[] invalidPigDeclarations = {
+            "  pig:\n",
+            "  pig: null\n",
+            "  pig: ~\n",
+            "  pig: # intentionally blank\n",
+            "  \"pig\": null\n",
+            "  'pig': null\n",
+            "  \"p\\u0069g\": null\n"
+        };
+
+        for (String pigDeclaration : invalidPigDeclarations) {
+            String invalid = VALID_0_0_1_CONFIG.replace(
+                    "  ender-dragon: 100.0\n",
+                    "  ender-dragon: 100.0\n" + pigDeclaration);
+
+            HeadDropConfigException exception = assertThrows(
+                    HeadDropConfigException.class,
+                    () -> HeadDropConfig.parse(invalid));
+
+            assertTrue(exception.getMessage().contains("heads.pig"));
+        }
+    }
+
+    @Test
+    void explicitNullNewHeadChanceUnderQuotedHeadsSectionIsRejected() {
+        String[] headsDeclarations = {
+            "\"heads\":\n",
+            "'heads':\n"
+        };
+
+        for (String headsDeclaration : headsDeclarations) {
+            String invalid = VALID_0_0_1_CONFIG
+                    .replace("heads:\n  creeper:", headsDeclaration + "  creeper:")
+                    .replace(
+                            "  ender-dragon: 100.0\n",
+                            "  ender-dragon: 100.0\n  pig: null\n");
+
+            HeadDropConfigException exception = assertThrows(
+                    HeadDropConfigException.class,
+                    () -> HeadDropConfig.parse(invalid));
+
+            assertTrue(exception.getMessage().contains("heads.pig"));
+        }
+    }
+
+    @Test
+    void explicitNullNewHeadChanceUnderAnchoredHeadsSectionIsRejected() {
+        String invalid = VALID_0_0_1_CONFIG
+                .replace("heads:\n  creeper:", "heads: &drop-chances\n  creeper:")
+                .replace(
+                        "  ender-dragon: 100.0\n",
+                        "  ender-dragon: 100.0\n  pig: null\n");
+
+        HeadDropConfigException exception = assertThrows(
+                HeadDropConfigException.class,
+                () -> HeadDropConfig.parse(invalid));
+
+        assertTrue(exception.getMessage().contains("heads.pig"));
     }
 
     @Test
@@ -44,7 +120,7 @@ class HeadDropConfigTest {
 
     @Test
     void wrongNumericTypeIsRejected() {
-        String invalid = VALID_CONFIG.replace("creeper: 2.5", "creeper: often");
+        String invalid = VALID_0_0_1_CONFIG.replace("creeper: 2.5", "creeper: often");
 
         HeadDropConfigException exception = assertThrows(
                 HeadDropConfigException.class,
@@ -55,7 +131,7 @@ class HeadDropConfigTest {
 
     @Test
     void wrongBooleanTypeIsRejected() {
-        String invalid = VALID_CONFIG.replace("enabled: false", "enabled: sometimes");
+        String invalid = VALID_0_0_1_CONFIG.replace("enabled: false", "enabled: sometimes");
 
         HeadDropConfigException exception = assertThrows(
                 HeadDropConfigException.class,
@@ -66,7 +142,7 @@ class HeadDropConfigTest {
 
     @Test
     void outOfRangePercentageIsRejected() {
-        String invalid = VALID_CONFIG.replace("zombie: 2.5", "zombie: 125");
+        String invalid = VALID_0_0_1_CONFIG.replace("zombie: 2.5", "zombie: 125");
 
         HeadDropConfigException exception = assertThrows(
                 HeadDropConfigException.class,
@@ -76,8 +152,21 @@ class HeadDropConfigTest {
     }
 
     @Test
+    void outOfRangeCustomHeadPercentageIsRejected() {
+        String invalid = VALID_0_0_1_CONFIG.replace(
+                "  ender-dragon: 100.0\n",
+                "  ender-dragon: 100.0\n  pig: 125\n");
+
+        HeadDropConfigException exception = assertThrows(
+                HeadDropConfigException.class,
+                () -> HeadDropConfig.parse(invalid));
+
+        assertTrue(exception.getMessage().contains("heads.pig"));
+    }
+
+    @Test
     void unknownConfigurationKeyIsRejected() {
-        String invalid = VALID_CONFIG + "\nunexpected: true\n";
+        String invalid = VALID_0_0_1_CONFIG + "\nunexpected: true\n";
 
         HeadDropConfigException exception = assertThrows(
                 HeadDropConfigException.class,
@@ -87,8 +176,8 @@ class HeadDropConfigTest {
     }
 
     @Test
-    void missingRequiredValueIsRejected() {
-        String invalid = VALID_CONFIG.replace("  piglin: 2.5\n", "");
+    void missingOriginalRequiredValueIsRejected() {
+        String invalid = VALID_0_0_1_CONFIG.replace("  piglin: 2.5\n", "");
 
         HeadDropConfigException exception = assertThrows(
                 HeadDropConfigException.class,
