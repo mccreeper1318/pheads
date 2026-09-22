@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.0.3
+
+### Added
+
+- Added configurable custom-textured heads for 55 additional mobs across passive, aquatic, utility, neutral, and hostile mob types.
+- Added pinned Vanilla Tweaks texture provenance for every new 0.0.3 mob head.
+
+### Changed
+
+- Existing configurations remain valid; newly added 0.0.3 head chances default to 2.5% when omitted.
+
 ## 0.0.2
 
 ### Added

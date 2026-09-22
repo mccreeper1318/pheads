@@ -64,6 +64,74 @@ class HeadTypeTest {
         }
     }
 
+
+    @Test
+    void allZeroZeroThreeMobTypesResolve() {
+        List<EntityType> supported = List.of(
+                EntityType.ALLAY,
+                EntityType.ARMADILLO,
+                EntityType.BAT,
+                EntityType.COD,
+                EntityType.DOLPHIN,
+                EntityType.GLOW_SQUID,
+                EntityType.IRON_GOLEM,
+                EntityType.OCELOT,
+                EntityType.PANDA,
+                EntityType.PARROT,
+                EntityType.POLAR_BEAR,
+                EntityType.PUFFERFISH,
+                EntityType.SALMON,
+                EntityType.SKELETON_HORSE,
+                EntityType.SNOW_GOLEM,
+                EntityType.SQUID,
+                EntityType.STRIDER,
+                EntityType.TADPOLE,
+                EntityType.TRADER_LLAMA,
+                EntityType.TROPICAL_FISH,
+                EntityType.VILLAGER,
+                EntityType.WANDERING_TRADER,
+                EntityType.ZOMBIE_HORSE,
+                EntityType.BLAZE,
+                EntityType.BOGGED,
+                EntityType.BREEZE,
+                EntityType.CAVE_SPIDER,
+                EntityType.DROWNED,
+                EntityType.ELDER_GUARDIAN,
+                EntityType.ENDERMAN,
+                EntityType.ENDERMITE,
+                EntityType.EVOKER,
+                EntityType.GHAST,
+                EntityType.GUARDIAN,
+                EntityType.HOGLIN,
+                EntityType.HUSK,
+                EntityType.ILLUSIONER,
+                EntityType.MAGMA_CUBE,
+                EntityType.PHANTOM,
+                EntityType.PIGLIN_BRUTE,
+                EntityType.PILLAGER,
+                EntityType.RAVAGER,
+                EntityType.SHULKER,
+                EntityType.SILVERFISH,
+                EntityType.SLIME,
+                EntityType.SPIDER,
+                EntityType.STRAY,
+                EntityType.VEX,
+                EntityType.VINDICATOR,
+                EntityType.WARDEN,
+                EntityType.WITCH,
+                EntityType.WITHER,
+                EntityType.ZOGLIN,
+                EntityType.ZOMBIE_VILLAGER,
+                EntityType.ZOMBIFIED_PIGLIN);
+
+        for (EntityType entityType : supported) {
+            HeadType headType = HeadType.from(entityType);
+            assertNotNull(headType, entityType + " should have a head definition");
+            assertTrue(headType.customTextured(), entityType + " should use the custom-textured path");
+            assertEquals(Material.PLAYER_HEAD, headType.material());
+        }
+    }
+
     @Test
     void everyCustomHeadHasPinnedTextureProvenance() {
         for (HeadType headType : HeadType.values()) {

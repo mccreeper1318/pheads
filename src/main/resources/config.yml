@@ -27,6 +27,61 @@ heads:
   frog: 2.5
   axolotl: 2.5
   sniffer: 2.5
+  allay: 2.5
+  armadillo: 2.5
+  bat: 2.5
+  cod: 2.5
+  dolphin: 2.5
+  glow-squid: 2.5
+  iron-golem: 2.5
+  ocelot: 2.5
+  panda: 2.5
+  parrot: 2.5
+  polar-bear: 2.5
+  pufferfish: 2.5
+  salmon: 2.5
+  skeleton-horse: 2.5
+  snow-golem: 2.5
+  squid: 2.5
+  strider: 2.5
+  tadpole: 2.5
+  trader-llama: 2.5
+  tropical-fish: 2.5
+  villager: 2.5
+  wandering-trader: 2.5
+  zombie-horse: 2.5
+  blaze: 2.5
+  bogged: 2.5
+  breeze: 2.5
+  cave-spider: 2.5
+  drowned: 2.5
+  elder-guardian: 2.5
+  enderman: 2.5
+  endermite: 2.5
+  evoker: 2.5
+  ghast: 2.5
+  guardian: 2.5
+  hoglin: 2.5
+  husk: 2.5
+  illusioner: 2.5
+  magma-cube: 2.5
+  phantom: 2.5
+  piglin-brute: 2.5
+  pillager: 2.5
+  ravager: 2.5
+  shulker: 2.5
+  silverfish: 2.5
+  slime: 2.5
+  spider: 2.5
+  stray: 2.5
+  vex: 2.5
+  vindicator: 2.5
+  warden: 2.5
+  witch: 2.5
+  wither: 2.5
+  zoglin: 2.5
+  zombie-villager: 2.5
+  zombified-piglin: 2.5
 
 player-heads:
   # Disabled by default. When enabled, player deaths can drop that player's head.
