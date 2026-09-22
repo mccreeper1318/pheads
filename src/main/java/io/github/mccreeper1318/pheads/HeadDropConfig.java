@@ -191,12 +191,20 @@ final class HeadDropConfig {
     }
 
     private static boolean isHeadsSectionDeclaration(String trimmed) {
-        if (!trimmed.endsWith(":")) {
+        int colonIndex = trimmed.indexOf(':');
+        if (colonIndex <= 0) {
             return false;
         }
 
-        String keySource = trimmed.substring(0, trimmed.length() - 1).trim();
-        return "heads".equals(normalizeYamlKey(keySource));
+        String keySource = trimmed.substring(0, colonIndex).trim();
+        if (!"heads".equals(normalizeYamlKey(keySource))) {
+            return false;
+        }
+
+        String nodeProperties = trimmed.substring(colonIndex + 1).trim();
+        return nodeProperties.isEmpty()
+                || nodeProperties.startsWith("&")
+                || nodeProperties.startsWith("!");
     }
 
     private static String normalizeYamlKey(String keySource) {
