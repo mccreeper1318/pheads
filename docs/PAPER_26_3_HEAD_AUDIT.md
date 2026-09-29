@@ -27,7 +27,7 @@ Paper also exposes `Giant` as a living mob. Giant is a legacy, non-naturally-spa
 
 ## Existing variant coverage
 
-PHheads currently resolves persistent appearance variants for:
+PHeads currently resolves persistent appearance variants for:
 
 - sheep color
 - cat type
@@ -45,7 +45,7 @@ PHheads currently resolves persistent appearance variants for:
 - zombie-villager profession
 - screaming goat state
 
-Temporary states such as anger, charging, nectar, or cold-state behavior are intentionally not treated as head variants.
+Temporary states such as anger, charging, nectar, or the strider cold state are intentionally not treated as head variants.
 
 ## Confirmed persistent appearance gaps on supported mobs
 
@@ -77,7 +77,7 @@ The eight newer mobs in #20 also need variant/state evaluation during implementa
 
 ## Texture provenance findings
 
-PHheads' existing custom textures are pinned to Vanilla Tweaks More Mob Heads v2.15.0 (MC 1.21-1.21.4), preserved at RWELabs/Minecraft commit `4644939004389159c2a52b97e8b35a4dcf5ad75a`.
+PHeads' existing custom textures are pinned to Vanilla Tweaks More Mob Heads v2.15.0 (MC 1.21-1.21.4), preserved at RWELabs/Minecraft commit `4644939004389159c2a52b97e8b35a4dcf5ad75a`.
 
 That snapshot predates the eight newer mobs in #20. It also contains only one canonical head texture for cow, pig, chicken, salmon, shulker, and tropical fish, so it cannot provide the missing appearance variants identified above.
 
