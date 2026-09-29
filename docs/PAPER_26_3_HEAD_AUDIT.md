@@ -57,6 +57,7 @@ Paper 26.3 exposes additional persistent visual data that PHeads does not curren
 | Pig | `cold`, `temperate`, `warm` variants | canonical texture only |
 | Chicken | `cold`, `temperate`, `warm` variants | canonical texture only |
 | Salmon | `small`, `medium`, `large` size variants | canonical texture only |
+| Snow Golem | pumpkin/derp state via `Snowman#isDerp()`; derp mode means no pumpkin | canonical texture only |
 | Shulker | dye color | canonical texture only |
 | Tropical Fish | pattern, body color, pattern color | canonical texture only |
 | Villager | biome/type in addition to profession | profession only |
@@ -79,7 +80,7 @@ The eight newer mobs in #20 also need variant/state evaluation during implementa
 
 PHeads' existing custom textures are pinned to Vanilla Tweaks More Mob Heads v2.15.0 (MC 1.21-1.21.4), preserved at RWELabs/Minecraft commit `4644939004389159c2a52b97e8b35a4dcf5ad75a`.
 
-That snapshot predates the eight newer mobs in #20. It also contains only one canonical head texture for cow, pig, chicken, salmon, shulker, and tropical fish, so it cannot provide the missing appearance variants identified above.
+That snapshot predates the eight newer mobs in #20. It also contains only one canonical head texture for cow, pig, chicken, salmon, snow golem, shulker, and tropical fish, so it cannot provide the missing appearance variants identified above.
 
 No additional texture hashes should be added until a suitable source can be pinned and attributed. If an API variant has no acceptable texture source, it should remain intentionally unsupported.
 
