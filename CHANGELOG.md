@@ -2,6 +2,10 @@
 
 ## 0.1.0
 
+### Added
+
+- Added Paper 26.3 API compatibility regression coverage for skull/player profiles, damage-source attribution, and keyed mob variants.
+
 ### Changed
 
 - Advanced the development line from 0.0.3 to 0.1.0 for the Paper 26.3 update and upcoming feature work.
