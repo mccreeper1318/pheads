@@ -5,6 +5,7 @@
 ### Changed
 
 - Advanced the development line from 0.0.3 to 0.1.0 for the Paper 26.3 update and upcoming feature work.
+- Updated the Paper API target from 26.2 stable to 26.3 beta and declared Paper API version 26.3.
 
 ## 0.0.3
 
