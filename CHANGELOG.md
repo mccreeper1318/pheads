@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.0
+
+### Changed
+
+- Advanced the development line from 0.0.3 to 0.1.0 for the Paper 26.3 update and upcoming feature work.
+
 ## 0.0.3
 
 ### Added
