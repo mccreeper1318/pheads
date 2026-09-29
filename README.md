@@ -6,7 +6,7 @@ PHeads only rolls its configured head drops when the killed mob or player is cre
 
 ## Requirements
 
-- Paper 26.2
+- Paper 26.3
 - Java 25
 
 ## Installation
@@ -233,7 +233,7 @@ Player heads use the killed player's profile so the dropped head keeps that play
 
 ## Building from source
 
-The project uses Java 25 and the included Gradle 9.7.1 wrapper.
+The project uses Java 25 and the included Gradle 9.8.0 wrapper.
 
 Linux/macOS:
 
