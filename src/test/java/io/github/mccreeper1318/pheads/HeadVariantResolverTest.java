@@ -8,6 +8,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.lang.reflect.Proxy;
 import java.util.Map;
 import org.bukkit.DyeColor;
+import org.bukkit.NamespacedKey;
+import org.bukkit.entity.Cat;
 import org.bukkit.entity.Panda;
 import org.bukkit.entity.Sheep;
 import org.junit.jupiter.api.Test;
@@ -25,6 +27,17 @@ class HeadVariantResolverTest {
         assertEquals(
                 "5478e057158de6f45e2541cd17788e640ccb59723de59c254e82ab5711f3fc27",
                 appearance.textureHash());
+    }
+
+    @Test
+    void keyedRegistryVariantResolvesFromKilledEntity() {
+        Cat.Type tabbyType = proxy(Cat.Type.class, Map.of("getKey", NamespacedKey.minecraft("tabby")));
+        Cat tabbyCat = proxy(Cat.class, Map.of("getCatType", tabbyType));
+
+        HeadVariantAppearance appearance = HeadVariantResolver.resolve(tabbyCat, HeadType.CAT);
+
+        assertEquals("tabby", appearance.key());
+        assertEquals("Tabby Cat Head", appearance.displayName());
     }
 
     @Test

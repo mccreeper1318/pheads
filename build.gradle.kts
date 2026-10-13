@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "io.github.mccreeper1318"
-val baseVersion = "0.0.3"
+val baseVersion = "0.1.0"
 val releaseVersion = providers.gradleProperty("releaseVersion").orNull
 if (releaseVersion != null) {
     val supportedReleaseVersion =
@@ -25,11 +25,11 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:26.2.build.123-stable")
+    compileOnly("io.papermc.paper:paper-api:26.3.build.178-stable")
 
     testImplementation(platform("org.junit:junit-bom:6.1.3"))
     testImplementation("org.junit.jupiter:junit-jupiter")
-    testImplementation("io.papermc.paper:paper-api:26.2.build.123-stable")
+    testImplementation("io.papermc.paper:paper-api:26.3.build.178-stable")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
