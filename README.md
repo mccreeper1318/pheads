@@ -110,9 +110,29 @@ player-heads:
   drop-chance-percent: 100.0
 ```
 
+### Prize Heads
+
+Prize Heads are ultra-rare trophy versions of supported mob heads. Their roll happens before the normal PHeads roll; when a Prize Head succeeds, that kill does not also roll a normal PHeads head.
+
+Each mob has its own Prize Head chance under `prize-heads.chances`. New 0.1.1 configs default to `0.10%` per mob. Existing configs without a `prize-heads` section remain valid and keep Prize Heads disabled until the section is added.
+
+```yaml
+prize-heads:
+  chances:
+    creeper: 0.10
+    pig: 0.10
+    # The generated config includes every supported mob.
+  particles:
+    enabled: true
+    type: END_ROD
+    count: 20
+```
+
+Prize Heads use a gold trophy name, permanent glint, rarity lore, and persistent `pheads:special_head`, `pheads:mob`, and `pheads:tier` metadata. The particle burst is a one-time visual effect only; Prize Heads do not grant gameplay powers.
+
 PHeads adds configured drops without removing or replacing vanilla drops.
 
-Existing configuration files from earlier releases remain valid in 0.0.3. If a newly added mob key is absent from an older configuration, PHeads uses a `2.5%` drop chance for that mob until the key is added to `config.yml`.
+Existing configuration files from earlier releases remain valid in 0.1.1. If a newly added mob key is absent from an older configuration, PHeads uses a `2.5%` drop chance for that mob until the key is added to `config.yml`.
 
 ## Commands
 
@@ -233,7 +253,7 @@ Player heads use the killed player's profile so the dropped head keeps that play
 
 ## Building from source
 
-The project uses Java 25 and the included Gradle 9.8.0 wrapper.
+The project uses Java 25 and the included Gradle 9.8.2 wrapper.
 
 Linux/macOS:
 

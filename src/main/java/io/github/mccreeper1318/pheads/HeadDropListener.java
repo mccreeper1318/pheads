@@ -23,15 +23,26 @@ import org.bukkit.inventory.meta.SkullMeta;
 final class HeadDropListener implements Listener {
 
     private final KillAttributionTracker killAttributionTracker;
+    private final HeadDropRoller headDropRoller;
     private HeadDropConfig config;
 
     HeadDropListener(HeadDropConfig config) {
-        this(config, new KillAttributionTracker());
+        this(config, new KillAttributionTracker(), new HeadDropRoller());
     }
 
-    HeadDropListener(HeadDropConfig config, KillAttributionTracker killAttributionTracker) {
+    HeadDropListener(
+            HeadDropConfig config,
+            KillAttributionTracker killAttributionTracker) {
+        this(config, killAttributionTracker, new HeadDropRoller());
+    }
+
+    HeadDropListener(
+            HeadDropConfig config,
+            KillAttributionTracker killAttributionTracker,
+            HeadDropRoller headDropRoller) {
         this.config = config;
         this.killAttributionTracker = killAttributionTracker;
+        this.headDropRoller = headDropRoller;
     }
 
     void setConfig(HeadDropConfig config) {
@@ -40,7 +51,8 @@ final class HeadDropListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPlayerInteract(PlayerInteractEvent event) {
-        if (event.getAction() != Action.RIGHT_CLICK_BLOCK || event.useInteractedBlock() == Event.Result.DENY) {
+        if (event.getAction() != Action.RIGHT_CLICK_BLOCK
+                || event.useInteractedBlock() == Event.Result.DENY) {
             return;
         }
 
@@ -75,23 +87,41 @@ final class HeadDropListener implements Listener {
             return;
         }
 
-        if (shouldDrop(config.chanceFor(headType))) {
-            event.getDrops().add(HeadItemFactory.create(headType, event.getEntity()));
+        HeadDropRoller.Result result =
+                headDropRoller.roll(
+                        config.prizeChanceFor(headType),
+                        config.chanceFor(headType));
+
+        if (result == HeadDropRoller.Result.PRIZE) {
+            event.getDrops().add(
+                    HeadItemFactory.createPrize(headType, event.getEntity()));
+            emitPrizeParticles(event);
+        } else if (result == HeadDropRoller.Result.NORMAL) {
+            event.getDrops().add(
+                    HeadItemFactory.create(headType, event.getEntity()));
         }
     }
 
     private boolean isPlayerAttributed(EntityDeathEvent event) {
         Player directKiller = event.getEntity().getKiller();
-        UUID directKillerId = directKiller == null ? null : directKiller.getUniqueId();
+        UUID directKillerId =
+                directKiller == null ? null : directKiller.getUniqueId();
 
         DamageSource damageSource = event.getDamageSource();
         Entity causingEntity = damageSource.getCausingEntity();
-        UUID causingPlayerId = causingEntity instanceof Player player ? player.getUniqueId() : null;
+        UUID causingPlayerId =
+                causingEntity instanceof Player player
+                        ? player.getUniqueId()
+                        : null;
 
-        boolean badRespawnPoint = DamageType.BAD_RESPAWN_POINT.equals(damageSource.getDamageType());
-        KillAttributionTracker.DamagePoint sourcePoint = badRespawnPoint
-                ? toDamagePoint(damageSource.getDamageLocation(), event.getEntity().getWorld().getUID())
-                : null;
+        boolean badRespawnPoint =
+                DamageType.BAD_RESPAWN_POINT.equals(damageSource.getDamageType());
+        KillAttributionTracker.DamagePoint sourcePoint =
+                badRespawnPoint
+                        ? toDamagePoint(
+                                damageSource.getDamageLocation(),
+                                event.getEntity().getWorld().getUID())
+                        : null;
 
         return killAttributionTracker.resolvePlayer(
                         directKillerId,
@@ -101,12 +131,17 @@ final class HeadDropListener implements Listener {
                 != null;
     }
 
-    private KillAttributionTracker.DamagePoint toDamagePoint(Location location, UUID fallbackWorldId) {
+    private KillAttributionTracker.DamagePoint toDamagePoint(
+            Location location,
+            UUID fallbackWorldId) {
         if (location == null) {
             return null;
         }
 
-        UUID worldId = location.getWorld() == null ? fallbackWorldId : location.getWorld().getUID();
+        UUID worldId =
+                location.getWorld() == null
+                        ? fallbackWorldId
+                        : location.getWorld().getUID();
         return new KillAttributionTracker.DamagePoint(
                 worldId,
                 location.getX(),
@@ -119,16 +154,39 @@ final class HeadDropListener implements Listener {
     }
 
     private void handlePlayerDeath(EntityDeathEvent event, Player player) {
-        if (!config.playerHeadsEnabled() || !shouldDrop(config.playerHeadChance())) {
+        if (!config.playerHeadsEnabled()
+                || !shouldDrop(config.playerHeadChance())) {
             return;
         }
 
         ItemStack playerHead = new ItemStack(Material.PLAYER_HEAD);
-        playerHead.editMeta(SkullMeta.class, skullMeta -> skullMeta.setPlayerProfile(player.getPlayerProfile()));
+        playerHead.editMeta(
+                SkullMeta.class,
+                skullMeta -> skullMeta.setPlayerProfile(player.getPlayerProfile()));
         event.getDrops().add(playerHead);
     }
 
+    private void emitPrizeParticles(EntityDeathEvent event) {
+        if (!config.prizeParticlesEnabled()
+                || config.prizeParticleCount() <= 0) {
+            return;
+        }
+
+        Location location =
+                event.getEntity().getLocation().add(0.0D, 0.6D, 0.0D);
+        event.getEntity().getWorld().spawnParticle(
+                config.prizeParticle(),
+                location,
+                config.prizeParticleCount(),
+                0.35D,
+                0.35D,
+                0.35D,
+                0.02D);
+    }
+
     private boolean shouldDrop(double chancePercent) {
-        return DropChance.shouldDrop(chancePercent, ThreadLocalRandom.current().nextDouble(100.0D));
+        return DropChance.shouldDrop(
+                chancePercent,
+                ThreadLocalRandom.current().nextDouble(100.0D));
     }
 }
