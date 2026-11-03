@@ -8,6 +8,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -40,7 +41,8 @@ final class PHeadsCommand implements CommandExecutor, TabCompleter {
             return handleGive(sender, args);
         }
 
-        sender.sendMessage("Usage: /pheads reload | /ph give <mob-head>");
+        sender.sendMessage(
+                "Usage: /pheads reload | /ph give <mob-head> | /ph give trophy <mob-head>");
         return true;
     }
 
@@ -53,7 +55,8 @@ final class PHeadsCommand implements CommandExecutor, TabCompleter {
         if (plugin.reloadHeadDropConfig()) {
             sender.sendMessage("PHeads configuration reloaded.");
         } else {
-            sender.sendMessage("PHeads configuration reload failed. Check the server console for details.");
+            sender.sendMessage(
+                    "PHeads configuration reload failed. Check the server console for details.");
         }
         return true;
     }
@@ -65,41 +68,50 @@ final class PHeadsCommand implements CommandExecutor, TabCompleter {
         }
 
         if (!(sender instanceof Player player)) {
-            sender.sendMessage("Only players can use /ph give <mob-head>.");
+            sender.sendMessage(
+                    "Only players can use /ph give <mob-head> or /ph give trophy <mob-head>.");
             return true;
         }
 
-        if (args.length < 2) {
-            sender.sendMessage("Usage: /ph give <mob-head>");
+        HeadGiveRequest request = HeadGiveRequest.parse(args);
+        if (request.status() == HeadGiveRequest.Status.MISSING_HEAD) {
+            sender.sendMessage(request.trophy()
+                    ? "Usage: /ph give trophy <mob-head>"
+                    : "Usage: /ph give <mob-head>");
             return true;
         }
 
-        String requestedHead = String.join("-", Arrays.copyOfRange(args, 1, args.length))
-                .toLowerCase(Locale.ROOT)
-                .replace('_', '-');
-        HeadType headType = Arrays.stream(HeadType.values())
-                .filter(type -> type.configKey().equals(requestedHead))
-                .findFirst()
-                .orElse(null);
-
-        if (headType == null) {
-            sender.sendMessage("Unknown mob head '" + requestedHead + "'. Use tab completion to see supported heads.");
+        if (request.status() == HeadGiveRequest.Status.UNKNOWN_HEAD) {
+            sender.sendMessage(
+                    "Unknown mob head '" + request.requestedKey()
+                            + "'. Use tab completion to see supported heads.");
             return true;
         }
+
+        HeadType headType = request.headType();
+        ItemStack head = request.trophy()
+                ? HeadItemFactory.createPrize(headType)
+                : HeadItemFactory.create(headType);
 
         HeadGiveDelivery.Result delivery = HeadGiveDelivery.deliver(
-                HeadItemFactory.create(headType),
+                head,
                 item -> player.getInventory().addItem(item),
-                item -> player.getWorld().dropItemNaturally(player.getLocation(), item).isValid());
+                item -> player.getWorld()
+                        .dropItemNaturally(player.getLocation(), item)
+                        .isValid());
+
+        String displayName = request.trophy()
+                ? PrizeHeadPresentation.forHead(headType).displayName()
+                : headType.displayName();
 
         if (!delivery.successful()) {
             sender.sendMessage(
-                    "Could not give you 1 " + headType.displayName()
+                    "Could not give you 1 " + displayName
                             + ": your inventory is full and the fallback item spawn was blocked.");
             return true;
         }
 
-        sender.sendMessage("Gave you 1 " + headType.displayName() + ".");
+        sender.sendMessage("Gave you 1 " + displayName + ".");
         return true;
     }
 
@@ -120,6 +132,19 @@ final class PHeadsCommand implements CommandExecutor, TabCompleter {
                 && args[0].equalsIgnoreCase("give")
                 && sender.hasPermission(GIVE_PERMISSION)) {
             String prefix = args[1].toLowerCase(Locale.ROOT).replace('_', '-');
+            return java.util.stream.Stream.concat(
+                            java.util.stream.Stream.of("trophy"),
+                            HEAD_KEYS.stream())
+                    .filter(option -> option.startsWith(prefix))
+                    .sorted()
+                    .toList();
+        }
+
+        if (args.length == 3
+                && args[0].equalsIgnoreCase("give")
+                && args[1].equalsIgnoreCase("trophy")
+                && sender.hasPermission(GIVE_PERMISSION)) {
+            String prefix = args[2].toLowerCase(Locale.ROOT).replace('_', '-');
             return HEAD_KEYS.stream()
                     .filter(head -> head.startsWith(prefix))
                     .toList();
