@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.1
+
+### Changed
+
+- Updated Gradle wrapper to 9.8.2.
+
 ## 0.1.0
 
 ### Added
