@@ -141,9 +141,9 @@ Existing configuration files from earlier releases remain valid in 0.1.1. If a n
 | Command | Description | Permission |
 | --- | --- | --- |
 | `/pheads reload` | Reloads `config.yml` without restarting the server. | `pheads.reload` |
-| `/ph give <mob-head>` | Gives the executing player one supported mob head. | `pheads.give` |
+| `/ph give <mob-head>` | Gives the executing player one normal supported mob head. | `pheads.give` |\n| `/ph give trophy <mob-head>` | Gives the executing player one Prize/Trophy Head. | `pheads.give` |
 
-Both command permissions default to server operators. Supported mob-head names are available through tab completion.
+Both command permissions default to server operators. Supported mob-head names are available through tab completion, including after `/ph give trophy`.
 
 ## Supported heads
 
