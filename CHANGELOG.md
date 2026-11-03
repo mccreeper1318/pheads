@@ -2,8 +2,13 @@
 
 ## 0.1.1
 
+### Added
+
+- Added configurable Prize Heads with prize-first rolls, glint, lore, metadata, and particle bursts.
+
 ### Changed
 
+- Advanced development to 0.1.1.
 - Updated Gradle wrapper to 9.8.2.
 
 ## 0.1.0
