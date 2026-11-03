@@ -10,12 +10,12 @@ commands:
   pheads:
     description: Manage PHeads.
     aliases: [ph]
-    usage: /pheads reload | /ph give <mob-head>
+    usage: /pheads reload | /ph give <mob-head> | /ph give trophy <mob-head>
 
 permissions:
   pheads.reload:
     description: Allows reloading the PHeads configuration.
     default: op
   pheads.give:
-    description: Allows giving yourself supported PHeads mob heads.
+    description: Allows giving yourself supported normal and Prize PHeads mob heads.
     default: op
