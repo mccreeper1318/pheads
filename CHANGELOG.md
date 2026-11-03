@@ -4,7 +4,7 @@
 
 ### Added
 
-- Added configurable Prize Heads with prize-first rolls, glint, lore, metadata, and particle bursts.
+- Added configurable Prize Heads with prize-first rolls, glint, lore, metadata, and particle bursts.\n- Added `/ph give trophy <mob-head>` for Prize Heads.
 
 ### Changed
 
