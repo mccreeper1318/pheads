@@ -82,6 +82,14 @@ heads:
   zoglin: 2.5
   zombie-villager: 2.5
   zombified-piglin: 2.5
+  creaking: 2.5
+  happy-ghast: 2.5
+  copper-golem: 2.5
+  nautilus: 2.5
+  zombie-nautilus: 2.5
+  camel-husk: 2.5
+  parched: 2.5
+  sulfur-cube: 2.5
 
 # Prize Heads roll before normal PHeads drops.
 # A successful Prize Head roll replaces the normal PHeads roll for that kill.
@@ -169,6 +177,14 @@ prize-heads:
     zoglin: 0.10
     zombie-villager: 0.10
     zombified-piglin: 0.10
+    creaking: 0.10
+    happy-ghast: 0.10
+    copper-golem: 0.10
+    nautilus: 0.10
+    zombie-nautilus: 0.10
+    camel-husk: 0.10
+    parched: 0.10
+    sulfur-cube: 0.10
   particles:
     enabled: true
     type: END_ROD
