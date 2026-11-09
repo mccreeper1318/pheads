@@ -132,7 +132,7 @@ Prize Heads use a gold trophy name, permanent glint, rarity lore, and persistent
 
 PHeads adds configured drops without removing or replacing vanilla drops.
 
-Existing configuration files from earlier releases remain valid in 0.1.2. If a newly added mob key is absent from an older configuration, PHeads uses a `2.5%` drop chance for that mob until the key is added to `config.yml`.
+Existing configuration files from earlier releases remain valid in 0.1.1. If a newly added mob key is absent from an older configuration, PHeads uses a `2.5%` drop chance for that mob until the key is added to `config.yml`.
 
 ## Commands
 
