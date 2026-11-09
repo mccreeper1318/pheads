@@ -11,8 +11,11 @@ import java.util.Map;
 import org.bukkit.DyeColor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Cat;
+import org.bukkit.entity.Chicken;
 import org.bukkit.entity.CopperGolem;
+import org.bukkit.entity.Cow;
 import org.bukkit.entity.Panda;
+import org.bukkit.entity.Pig;
 import org.bukkit.entity.Sheep;
 import org.bukkit.entity.ZombieNautilus;
 import org.junit.jupiter.api.Test;
@@ -57,6 +60,63 @@ class HeadVariantResolverTest {
         assertEquals(
                 "aggressive",
                 HeadVariantResolver.pandaVariantKey(Panda.Gene.AGGRESSIVE, Panda.Gene.NORMAL));
+    }
+
+    @Test
+    void cowPersistentVariantsResolveAllThreeAppearances() {
+        assertVariant(
+                proxy(Cow.class, Map.of("getVariant", Cow.Variant.COLD)),
+                HeadType.COW,
+                "cold",
+                "Cold Cow Head");
+        assertVariant(
+                proxy(Cow.class, Map.of("getVariant", Cow.Variant.TEMPERATE)),
+                HeadType.COW,
+                "temperate",
+                "Temperate Cow Head");
+        assertVariant(
+                proxy(Cow.class, Map.of("getVariant", Cow.Variant.WARM)),
+                HeadType.COW,
+                "warm",
+                "Warm Cow Head");
+    }
+
+    @Test
+    void pigPersistentVariantsResolveAllThreeAppearances() {
+        assertVariant(
+                proxy(Pig.class, Map.of("getVariant", Pig.Variant.COLD)),
+                HeadType.PIG,
+                "cold",
+                "Cold Pig Head");
+        assertVariant(
+                proxy(Pig.class, Map.of("getVariant", Pig.Variant.TEMPERATE)),
+                HeadType.PIG,
+                "temperate",
+                "Temperate Pig Head");
+        assertVariant(
+                proxy(Pig.class, Map.of("getVariant", Pig.Variant.WARM)),
+                HeadType.PIG,
+                "warm",
+                "Warm Pig Head");
+    }
+
+    @Test
+    void chickenPersistentVariantsResolveAllThreeAppearances() {
+        assertVariant(
+                proxy(Chicken.class, Map.of("getVariant", Chicken.Variant.COLD)),
+                HeadType.CHICKEN,
+                "cold",
+                "Cold Chicken Head");
+        assertVariant(
+                proxy(Chicken.class, Map.of("getVariant", Chicken.Variant.TEMPERATE)),
+                HeadType.CHICKEN,
+                "temperate",
+                "Temperate Chicken Head");
+        assertVariant(
+                proxy(Chicken.class, Map.of("getVariant", Chicken.Variant.WARM)),
+                HeadType.CHICKEN,
+                "warm",
+                "Warm Chicken Head");
     }
 
     @Test
@@ -128,6 +188,16 @@ class HeadVariantResolverTest {
         assertFalse(
                 HeadItemFactory.profileIdFor(HeadType.SHEEP)
                         .equals(HeadItemFactory.profileIdFor(HeadType.SHEEP, "white")));
+    }
+
+    private static void assertVariant(
+            org.bukkit.entity.Entity entity,
+            HeadType headType,
+            String expectedKey,
+            String expectedDisplayName) {
+        HeadVariantAppearance appearance = HeadVariantResolver.resolve(entity, headType);
+        assertEquals(expectedKey, appearance.key());
+        assertEquals(expectedDisplayName, appearance.displayName());
     }
 
     @SuppressWarnings("unchecked")
