@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "io.github.mccreeper1318"
-val baseVersion = "0.1.2"
+val baseVersion = "0.1.1"
 val releaseVersion = providers.gradleProperty("releaseVersion").orNull
 if (releaseVersion != null) {
     val supportedReleaseVersion =
