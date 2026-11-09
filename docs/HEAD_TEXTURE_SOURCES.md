@@ -10,6 +10,8 @@ https://github.com/RWELabs/Minecraft/tree/4644939004389159c2a52b97e8b35a4dcf5ad7
 
 The RWELabs repository is used here only as a pinned snapshot of the Vanilla Tweaks pack. Permission and attribution for the adapted content are based on Vanilla Tweaks' terms, not on the mirror repository.
 
+The newer Paper 26.3 mobs added for 0.1.2 use texture references from **Teak's Tweaks**, which carries a maintained More Mob Heads implementation under the MIT License. Those values are pinned to Teak's Tweaks commit `5ca969779e614cc5f84012677b25fc01e5f1156c`, file `src/main/resources/data/more_mob_heads.json`, Git blob `33ad209c4498514c7bc2726aeb1a2643334de6f2`. The pinned license file at that commit is Git blob `bdcc13de56f4da031dd4f80f2208010bcdbf1fea`.
+
 PHeads stores the texture hash/profile reference, not the PNG skin files, and does not call a third-party head API at runtime. Minecraft resolves the referenced textures through `textures.minecraft.net`.
 
 ## Canonical mappings
@@ -93,12 +95,20 @@ The canonical mappings below are used by commands and as fallbacks. Natural drop
 | `zoglin` | Zoglin | `2e3493a956bfd7588ed1a8ea858759667659d58100cbecd6d96ccc0ca9b36923` | `data/more_mob_heads/loot_table/entities/zoglin.json` | `077390588b0e12fdd9f10c5d8ed812e15791036c` |
 | `zombie-villager` | Zombie Armorer | `c8679e034767d518660d9416dc5eaf319d697682ac40c886e3c2bc8dfa1de1d` | `data/more_mob_heads/loot_table/entities/zombie_villager.json` | `610b3eec72b8fb6f6d1d796f579f45920239833c` |
 | `zombified-piglin` | Zombified Piglin | `2df03128b002a70708d6825ed6cf54ddf694b3766d78d5649030b1cb8b34c6fa` | `data/more_mob_heads/loot_table/entities/zombified_piglin.json` | `19153ca18e54f3c480630b83c0e80a59ddac9b92` |
+| `creaking` | Creaking | `fc077c975f13dbdaeda5f0d2016eb3af51e4c27d9714a123c4128901505c788c` | `src/main/resources/data/more_mob_heads.json` | `33ad209c4498514c7bc2726aeb1a2643334de6f2` |
+| `happy-ghast` | Happy Ghast | `7505b062078d9753ddb9bc0ef0f4e32313d37ba50840db87458c7f6cbcff480c` | `src/main/resources/data/more_mob_heads.json` | `33ad209c4498514c7bc2726aeb1a2643334de6f2` |
+| `copper-golem` | Copper Golem | `ef40c1bec122265e979e4378dc8d8b13bd926ed2ad8984f493eb46f754474717` | `src/main/resources/data/more_mob_heads.json` | `33ad209c4498514c7bc2726aeb1a2643334de6f2` |
+| `nautilus` | Nautilus Shell | `2708cf9900399060c9280c6b3b88cbe536e722c0eebc932a9c5fa0140d0362fc` | `src/main/resources/data/more_mob_heads.json` | `33ad209c4498514c7bc2726aeb1a2643334de6f2` |
+| `zombie-nautilus` | Temperate Zombie Nautilus Shell | `eb6d16bcbc858320e4eecb818abf29af825bcf91fac7989aba5536ab8ba40c0f` | `src/main/resources/data/more_mob_heads.json` | `33ad209c4498514c7bc2726aeb1a2643334de6f2` |
+| `camel-husk` | Camel Husk | `c7d43463d848941159430a232b4d5c17b3b842f866b54a33e748476e40874747` | `src/main/resources/data/more_mob_heads.json` | `33ad209c4498514c7bc2726aeb1a2643334de6f2` |
+| `parched` | Parched | `24aeceff5f26dd8413c5c03547c234ac03108d187af0b9cd834a8ce12598591c` | `src/main/resources/data/more_mob_heads.json` | `33ad209c4498514c7bc2726aeb1a2643334de6f2` |
+| `sulfur-cube` | Sulfur Cube | `a5ca506bfc34b9a8d0bed0530e13651b28c2b01c35c41405a78dce9f7dbd7cdb` | `src/main/resources/data/more_mob_heads.json` | `33ad209c4498514c7bc2726aeb1a2643334de6f2` |
 
 ## Variant-aware mappings
 
 Natural drops use these mappings when Paper exposes the corresponding persistent mob property. The mob-level drop chance remains unchanged; variants do not have separate probabilities.
 
-Transient states are intentionally excluded. Wolf anger, bee anger/nectar, strider cold state, Vex charging, and Wither projectile textures are not variant collectibles. Horse markings, villager biome types, shulker colors, tropical-fish patterns/colors, and salmon sizes are not distinguished because this pinned source does not provide corresponding variant head mappings. Name-driven Easter eggs such as `jeb_` sheep and Toast rabbits are also outside the normal variant resolver.
+Transient states are intentionally excluded. Wolf anger, bee anger/nectar, strider cold state, Vex charging, and Wither projectile textures are not variant collectibles. Horse markings, villager biome types, shulker colors, tropical-fish patterns/colors, and salmon sizes are not distinguished because the pinned source does not provide corresponding variant head mappings. Copper Golem behavioral state is not treated as a head variant; only visible weathering is. Sulfur Cube archetypes remain canonical-only because the pinned source provides one Sulfur Cube head rather than distinct archetype heads. Name-driven Easter eggs such as `jeb_` sheep and Toast rabbits are also outside the normal variant resolver.
 
 | PHeads key | Variant key | Display name | Texture hash | Vanilla Tweaks source path | Pinned source blob |
 | --- | --- | --- | --- | --- | --- |
@@ -216,6 +226,12 @@ Transient states are intentionally excluded. Wolf anger, bee anger/nectar, strid
 | `zombie-villager` | `weaponsmith` | Zombie Weaponsmith Head | `4370894b5cc305d87aa08c3b4b08587db68ff29e7a3ef354cad6abca50e5528b` | `data/more_mob_heads/loot_table/entities/zombie_villager.json` | `610b3eec72b8fb6f6d1d796f579f45920239833c` |
 | `goat` | `normal` | Goat Head | `87473e055df6e7fd98664e9fdb63675f088106305d744024a41bb358918a142b` | `data/more_mob_heads/loot_table/entities/goat.json` | `66717150ffb1b96e35aa086f3d249344b7a4f3a1` |
 | `goat` | `screaming` | Screaming Goat Head | `bda485ac23512420891a5ae1e8de989f091d848d15a9068da4720d316fc4330f` | `data/more_mob_heads/loot_table/entities/goat.json` | `66717150ffb1b96e35aa086f3d249344b7a4f3a1` |
+| `copper-golem` | `unaffected` | Copper Golem Head | `ef40c1bec122265e979e4378dc8d8b13bd926ed2ad8984f493eb46f754474717` | `src/main/resources/data/more_mob_heads.json` | `33ad209c4498514c7bc2726aeb1a2643334de6f2` |
+| `copper-golem` | `exposed` | Exposed Copper Golem Head | `aac2844c30097c96462d48ada064cf9aae366aa11fdc1569ece860f720d1c9e0` | `src/main/resources/data/more_mob_heads.json` | `33ad209c4498514c7bc2726aeb1a2643334de6f2` |
+| `copper-golem` | `weathered` | Weathered Copper Golem Head | `d51795c439f5e2c4b08d90272127f29cb4e0b1a7d4eeb687591aa58003802a1a` | `src/main/resources/data/more_mob_heads.json` | `33ad209c4498514c7bc2726aeb1a2643334de6f2` |
+| `copper-golem` | `oxidized` | Oxidized Copper Golem Head | `f6a4598420c3f2049962de4936317a36d250d13d6502ac7ccc62f55a137bde37` | `src/main/resources/data/more_mob_heads.json` | `33ad209c4498514c7bc2726aeb1a2643334de6f2` |
+| `zombie-nautilus` | `temperate` | Temperate Zombie Nautilus Shell | `eb6d16bcbc858320e4eecb818abf29af825bcf91fac7989aba5536ab8ba40c0f` | `src/main/resources/data/more_mob_heads.json` | `33ad209c4498514c7bc2726aeb1a2643334de6f2` |
+| `zombie-nautilus` | `warm` | Coral Zombie Nautilus Shell | `552ac2acc5e9ca23727f44879242b104fdd6e044f7fb2d29fefca4bc2f4d4c3` | `src/main/resources/data/more_mob_heads.json` | `33ad209c4498514c7bc2726aeb1a2643334de6f2` |
 
 
 ## Adding another custom head
