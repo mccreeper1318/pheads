@@ -82,6 +82,113 @@ heads:
   zoglin: 2.5
   zombie-villager: 2.5
   zombified-piglin: 2.5
+  creaking: 2.5
+  happy-ghast: 2.5
+  copper-golem: 2.5
+  nautilus: 2.5
+  zombie-nautilus: 2.5
+  camel-husk: 2.5
+  parched: 2.5
+  sulfur-cube: 2.5
+
+# Prize Heads roll before normal PHeads drops.
+# A successful Prize Head roll replaces the normal PHeads roll for that kill.
+# Existing configs without this section keep Prize Heads disabled.
+prize-heads:
+  chances:
+    creeper: 0.10
+    zombie: 0.10
+    skeleton: 0.10
+    wither-skeleton: 0.10
+    piglin: 0.10
+    ender-dragon: 0.10
+    pig: 0.10
+    cow: 0.10
+    mooshroom: 0.10
+    sheep: 0.10
+    chicken: 0.10
+    rabbit: 0.10
+    horse: 0.10
+    donkey: 0.10
+    mule: 0.10
+    goat: 0.10
+    llama: 0.10
+    camel: 0.10
+    cat: 0.10
+    wolf: 0.10
+    fox: 0.10
+    bee: 0.10
+    turtle: 0.10
+    frog: 0.10
+    axolotl: 0.10
+    sniffer: 0.10
+    allay: 0.10
+    armadillo: 0.10
+    bat: 0.10
+    cod: 0.10
+    dolphin: 0.10
+    glow-squid: 0.10
+    iron-golem: 0.10
+    ocelot: 0.10
+    panda: 0.10
+    parrot: 0.10
+    polar-bear: 0.10
+    pufferfish: 0.10
+    salmon: 0.10
+    skeleton-horse: 0.10
+    snow-golem: 0.10
+    squid: 0.10
+    strider: 0.10
+    tadpole: 0.10
+    trader-llama: 0.10
+    tropical-fish: 0.10
+    villager: 0.10
+    wandering-trader: 0.10
+    zombie-horse: 0.10
+    blaze: 0.10
+    bogged: 0.10
+    breeze: 0.10
+    cave-spider: 0.10
+    drowned: 0.10
+    elder-guardian: 0.10
+    enderman: 0.10
+    endermite: 0.10
+    evoker: 0.10
+    ghast: 0.10
+    guardian: 0.10
+    hoglin: 0.10
+    husk: 0.10
+    illusioner: 0.10
+    magma-cube: 0.10
+    phantom: 0.10
+    piglin-brute: 0.10
+    pillager: 0.10
+    ravager: 0.10
+    shulker: 0.10
+    silverfish: 0.10
+    slime: 0.10
+    spider: 0.10
+    stray: 0.10
+    vex: 0.10
+    vindicator: 0.10
+    warden: 0.10
+    witch: 0.10
+    wither: 0.10
+    zoglin: 0.10
+    zombie-villager: 0.10
+    zombified-piglin: 0.10
+    creaking: 0.10
+    happy-ghast: 0.10
+    copper-golem: 0.10
+    nautilus: 0.10
+    zombie-nautilus: 0.10
+    camel-husk: 0.10
+    parched: 0.10
+    sulfur-cube: 0.10
+  particles:
+    enabled: true
+    type: END_ROD
+    count: 20
 
 player-heads:
   # Disabled by default. When enabled, player deaths can drop that player's head.

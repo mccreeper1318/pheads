@@ -6,8 +6,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.EnumMap;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import org.bukkit.Particle;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -17,19 +19,40 @@ final class HeadDropConfig {
 
     private static final String PLAYER_HEADS_ENABLED_PATH = "player-heads.enabled";
     private static final String PLAYER_HEADS_CHANCE_PATH = "player-heads.drop-chance-percent";
+    private static final String PRIZE_HEADS_PATH = "prize-heads";
+    private static final String PRIZE_CHANCES_PATH = "prize-heads.chances";
+    private static final String PRIZE_PARTICLES_PATH = "prize-heads.particles";
+    private static final String PRIZE_PARTICLES_ENABLED_PATH = "prize-heads.particles.enabled";
+    private static final String PRIZE_PARTICLE_TYPE_PATH = "prize-heads.particles.type";
+    private static final String PRIZE_PARTICLE_COUNT_PATH = "prize-heads.particles.count";
+    private static final double DEFAULT_PRIZE_CHANCE = 0.10D;
+    private static final Particle DEFAULT_PRIZE_PARTICLE = Particle.END_ROD;
+    private static final int DEFAULT_PRIZE_PARTICLE_COUNT = 20;
     private static final Set<String> ALLOWED_KEYS = createAllowedKeys();
 
     private final Map<HeadType, Double> mobChances;
+    private final Map<HeadType, Double> prizeChances;
     private final boolean playerHeadsEnabled;
     private final double playerHeadChance;
+    private final boolean prizeParticlesEnabled;
+    private final Particle prizeParticle;
+    private final int prizeParticleCount;
 
     private HeadDropConfig(
             Map<HeadType, Double> mobChances,
+            Map<HeadType, Double> prizeChances,
             boolean playerHeadsEnabled,
-            double playerHeadChance) {
+            double playerHeadChance,
+            boolean prizeParticlesEnabled,
+            Particle prizeParticle,
+            int prizeParticleCount) {
         this.mobChances = mobChances;
+        this.prizeChances = prizeChances;
         this.playerHeadsEnabled = playerHeadsEnabled;
         this.playerHeadChance = playerHeadChance;
+        this.prizeParticlesEnabled = prizeParticlesEnabled;
+        this.prizeParticle = prizeParticle;
+        this.prizeParticleCount = prizeParticleCount;
     }
 
     static HeadDropConfig load(Path path) throws HeadDropConfigException {
@@ -39,7 +62,6 @@ final class HeadDropConfig {
         } catch (IOException exception) {
             throw new HeadDropConfigException("Could not read config.yml: " + exception.getMessage(), exception);
         }
-
         return parse(contents);
     }
 
@@ -76,14 +98,63 @@ final class HeadDropConfig {
             }
         }
 
+        boolean prizeHeadsConfigured = config.get(PRIZE_HEADS_PATH, null) != null;
+        if (prizeHeadsConfigured) {
+            requireSection(config, PRIZE_HEADS_PATH);
+
+            Object chanceSection = config.get(PRIZE_CHANCES_PATH, null);
+            if (chanceSection != null && !(chanceSection instanceof ConfigurationSection)) {
+                throw new HeadDropConfigException(
+                        "Configuration value '" + PRIZE_CHANCES_PATH + "' must be a section.");
+            }
+
+            Object particleSection = config.get(PRIZE_PARTICLES_PATH, null);
+            if (particleSection != null && !(particleSection instanceof ConfigurationSection)) {
+                throw new HeadDropConfigException(
+                        "Configuration value '" + PRIZE_PARTICLES_PATH + "' must be a section.");
+            }
+        }
+
+        Map<HeadType, Double> prizeChances = new EnumMap<>(HeadType.class);
+        double missingPrizeChance = prizeHeadsConfigured ? DEFAULT_PRIZE_CHANCE : 0.0D;
+        for (HeadType headType : HeadType.values()) {
+            String path = PRIZE_CHANCES_PATH + "." + headType.configKey();
+            Object configuredValue = config.get(path, null);
+            prizeChances.put(
+                    headType,
+                    configuredValue == null ? missingPrizeChance : readPercent(config, path));
+        }
+
         boolean playerHeadsEnabled = readBoolean(config, PLAYER_HEADS_ENABLED_PATH);
         double playerHeadChance = readPercent(config, PLAYER_HEADS_CHANCE_PATH);
 
-        return new HeadDropConfig(mobChances, playerHeadsEnabled, playerHeadChance);
+        boolean prizeParticlesEnabled = prizeHeadsConfigured
+                && readOptionalBoolean(config, PRIZE_PARTICLES_ENABLED_PATH, true);
+        Particle prizeParticle =
+                readOptionalParticle(config, PRIZE_PARTICLE_TYPE_PATH, DEFAULT_PRIZE_PARTICLE);
+        int prizeParticleCount = readOptionalInteger(
+                config,
+                PRIZE_PARTICLE_COUNT_PATH,
+                DEFAULT_PRIZE_PARTICLE_COUNT,
+                0,
+                1000);
+
+        return new HeadDropConfig(
+                mobChances,
+                prizeChances,
+                playerHeadsEnabled,
+                playerHeadChance,
+                prizeParticlesEnabled,
+                prizeParticle,
+                prizeParticleCount);
     }
 
     double chanceFor(HeadType headType) {
         return mobChances.getOrDefault(headType, 0.0D);
+    }
+
+    double prizeChanceFor(HeadType headType) {
+        return prizeChances.getOrDefault(headType, 0.0D);
     }
 
     boolean playerHeadsEnabled() {
@@ -94,6 +165,18 @@ final class HeadDropConfig {
         return playerHeadChance;
     }
 
+    boolean prizeParticlesEnabled() {
+        return prizeParticlesEnabled;
+    }
+
+    Particle prizeParticle() {
+        return prizeParticle;
+    }
+
+    int prizeParticleCount() {
+        return prizeParticleCount;
+    }
+
     private static void validateKnownKeys(FileConfiguration config) throws HeadDropConfigException {
         for (String key : config.getKeys(true)) {
             if (!ALLOWED_KEYS.contains(key)) {
@@ -102,39 +185,122 @@ final class HeadDropConfig {
         }
     }
 
-    private static void requireSection(FileConfiguration config, String path) throws HeadDropConfigException {
+    private static void requireSection(FileConfiguration config, String path)
+            throws HeadDropConfigException {
         Object value = config.get(path, null);
         if (!(value instanceof ConfigurationSection)) {
-            throw new HeadDropConfigException("Missing required configuration section '" + path + "'.");
+            throw new HeadDropConfigException(
+                    "Missing required configuration section '" + path + "'.");
         }
     }
 
-    private static double readPercent(FileConfiguration config, String path) throws HeadDropConfigException {
+    private static double readPercent(FileConfiguration config, String path)
+            throws HeadDropConfigException {
         Object value = requiredValue(config, path);
         if (!(value instanceof Number number)) {
-            throw new HeadDropConfigException("Configuration value '" + path + "' must be a number from 0 to 100.");
+            throw new HeadDropConfigException(
+                    "Configuration value '" + path + "' must be a number from 0 to 100.");
         }
 
         double configured = number.doubleValue();
         if (!Double.isFinite(configured) || configured < 0.0D || configured > 100.0D) {
-            throw new HeadDropConfigException("Configuration value '" + path + "' must be between 0 and 100.");
+            throw new HeadDropConfigException(
+                    "Configuration value '" + path + "' must be between 0 and 100.");
         }
 
         return configured;
     }
 
-    private static boolean readBoolean(FileConfiguration config, String path) throws HeadDropConfigException {
+    private static boolean readBoolean(FileConfiguration config, String path)
+            throws HeadDropConfigException {
         Object value = requiredValue(config, path);
         if (!(value instanceof Boolean booleanValue)) {
-            throw new HeadDropConfigException("Configuration value '" + path + "' must be true or false.");
+            throw new HeadDropConfigException(
+                    "Configuration value '" + path + "' must be true or false.");
         }
         return booleanValue;
     }
 
-    private static Object requiredValue(FileConfiguration config, String path) throws HeadDropConfigException {
+    private static boolean readOptionalBoolean(
+            FileConfiguration config,
+            String path,
+            boolean defaultValue) throws HeadDropConfigException {
         Object value = config.get(path, null);
         if (value == null) {
-            throw new HeadDropConfigException("Missing required configuration value '" + path + "'.");
+            return defaultValue;
+        }
+        if (!(value instanceof Boolean booleanValue)) {
+            throw new HeadDropConfigException(
+                    "Configuration value '" + path + "' must be true or false.");
+        }
+        return booleanValue;
+    }
+
+    private static Particle readOptionalParticle(
+            FileConfiguration config,
+            String path,
+            Particle defaultValue) throws HeadDropConfigException {
+        Object value = config.get(path, null);
+        if (value == null) {
+            return defaultValue;
+        }
+        if (!(value instanceof String configured)) {
+            throw new HeadDropConfigException(
+                    "Configuration value '" + path + "' must be a particle name.");
+        }
+
+        final Particle particle;
+        try {
+            particle = Particle.valueOf(
+                    configured.trim().toUpperCase(Locale.ROOT).replace('-', '_'));
+        } catch (IllegalArgumentException exception) {
+            throw new HeadDropConfigException(
+                    "Configuration value '" + path + "' is not a valid particle type.",
+                    exception);
+        }
+
+        if (particle.getDataType() != Void.class) {
+            throw new HeadDropConfigException(
+                    "Configuration value '" + path
+                            + "' must be a particle that does not require extra data.");
+        }
+        return particle;
+    }
+
+    private static int readOptionalInteger(
+            FileConfiguration config,
+            String path,
+            int defaultValue,
+            int minimum,
+            int maximum) throws HeadDropConfigException {
+        Object value = config.get(path, null);
+        if (value == null) {
+            return defaultValue;
+        }
+        if (!(value instanceof Number number)) {
+            throw new HeadDropConfigException(
+                    "Configuration value '" + path + "' must be an integer from "
+                            + minimum + " to " + maximum + ".");
+        }
+
+        double configured = number.doubleValue();
+        if (!Double.isFinite(configured)
+                || configured != Math.rint(configured)
+                || configured < minimum
+                || configured > maximum) {
+            throw new HeadDropConfigException(
+                    "Configuration value '" + path + "' must be an integer from "
+                            + minimum + " to " + maximum + ".");
+        }
+        return (int) configured;
+    }
+
+    private static Object requiredValue(FileConfiguration config, String path)
+            throws HeadDropConfigException {
+        Object value = config.get(path, null);
+        if (value == null) {
+            throw new HeadDropConfigException(
+                    "Missing required configuration value '" + path + "'.");
         }
         return value;
     }
@@ -182,7 +348,9 @@ final class HeadDropConfig {
             }
 
             String scalar = trimmed.substring(colonIndex + 1).trim();
-            if (scalar.isEmpty() || "~".equals(scalar) || "null".equalsIgnoreCase(scalar)) {
+            if (scalar.isEmpty()
+                    || "~".equals(scalar)
+                    || "null".equalsIgnoreCase(scalar)) {
                 explicitlyNullPaths.add("heads." + matchingHeadType.configKey());
             }
         }
@@ -235,7 +403,9 @@ final class HeadDropConfig {
             char current = line.charAt(index);
 
             if (current == '\'' && !inDoubleQuotes) {
-                if (inSingleQuotes && index + 1 < line.length() && line.charAt(index + 1) == '\'') {
+                if (inSingleQuotes
+                        && index + 1 < line.length()
+                        && line.charAt(index + 1) == '\'') {
                     index++;
                     continue;
                 }
@@ -268,9 +438,21 @@ final class HeadDropConfig {
         for (HeadType headType : HeadType.values()) {
             keys.add("heads." + headType.configKey());
         }
+
         keys.add("player-heads");
         keys.add(PLAYER_HEADS_ENABLED_PATH);
         keys.add(PLAYER_HEADS_CHANCE_PATH);
+
+        keys.add(PRIZE_HEADS_PATH);
+        keys.add(PRIZE_CHANCES_PATH);
+        for (HeadType headType : HeadType.values()) {
+            keys.add(PRIZE_CHANCES_PATH + "." + headType.configKey());
+        }
+        keys.add(PRIZE_PARTICLES_PATH);
+        keys.add(PRIZE_PARTICLES_ENABLED_PATH);
+        keys.add(PRIZE_PARTICLE_TYPE_PATH);
+        keys.add(PRIZE_PARTICLE_COUNT_PATH);
+
         return Set.copyOf(keys);
     }
 }

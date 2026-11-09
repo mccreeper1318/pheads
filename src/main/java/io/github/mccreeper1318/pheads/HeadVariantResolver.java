@@ -8,6 +8,9 @@ import java.util.Map;
 import org.bukkit.Keyed;
 import org.bukkit.entity.Axolotl;
 import org.bukkit.entity.Cat;
+import org.bukkit.entity.Chicken;
+import org.bukkit.entity.CopperGolem;
+import org.bukkit.entity.Cow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Fox;
 import org.bukkit.entity.Frog;
@@ -17,10 +20,12 @@ import org.bukkit.entity.Llama;
 import org.bukkit.entity.MushroomCow;
 import org.bukkit.entity.Panda;
 import org.bukkit.entity.Parrot;
+import org.bukkit.entity.Pig;
 import org.bukkit.entity.Rabbit;
 import org.bukkit.entity.Sheep;
 import org.bukkit.entity.Villager;
 import org.bukkit.entity.Wolf;
+import org.bukkit.entity.ZombieNautilus;
 import org.bukkit.entity.ZombieVillager;
 
 final class HeadVariantResolver {
@@ -67,13 +72,80 @@ final class HeadVariantResolver {
             case MOOSHROOM -> entity instanceof MushroomCow mushroomCow
                     ? enumKey(mushroomCow.getVariant())
                     : null;
+            case COW -> entity instanceof Cow cow ? cowVariantKey(cow.getVariant()) : null;
+            case PIG -> entity instanceof Pig pig ? pigVariantKey(pig.getVariant()) : null;
+            case CHICKEN -> entity instanceof Chicken chicken ? chickenVariantKey(chicken.getVariant()) : null;
             case VILLAGER -> entity instanceof Villager villager ? keyedKey(villager.getProfession()) : null;
             case ZOMBIE_VILLAGER -> entity instanceof ZombieVillager zombieVillager
                     ? keyedKeyOrNone(zombieVillager.getVillagerProfession())
                     : null;
             case GOAT -> entity instanceof Goat goat ? (goat.isScreaming() ? "screaming" : "normal") : null;
+            case COPPER_GOLEM -> entity instanceof CopperGolem copperGolem
+                    ? copperGolemVariantKey(copperGolem)
+                    : null;
+            case ZOMBIE_NAUTILUS -> entity instanceof ZombieNautilus zombieNautilus
+                    ? zombieNautilusVariantKey(zombieNautilus.getVariant())
+                    : null;
             default -> null;
         };
+    }
+
+    static String cowVariantKey(Cow.Variant variant) {
+        if (variant == Cow.Variant.COLD) {
+            return "cold";
+        }
+        if (variant == Cow.Variant.TEMPERATE) {
+            return "temperate";
+        }
+        if (variant == Cow.Variant.WARM) {
+            return "warm";
+        }
+        return null;
+    }
+
+    static String pigVariantKey(Pig.Variant variant) {
+        if (variant == Pig.Variant.COLD) {
+            return "cold";
+        }
+        if (variant == Pig.Variant.TEMPERATE) {
+            return "temperate";
+        }
+        if (variant == Pig.Variant.WARM) {
+            return "warm";
+        }
+        return null;
+    }
+
+    static String chickenVariantKey(Chicken.Variant variant) {
+        if (variant == Chicken.Variant.COLD) {
+            return "cold";
+        }
+        if (variant == Chicken.Variant.TEMPERATE) {
+            return "temperate";
+        }
+        if (variant == Chicken.Variant.WARM) {
+            return "warm";
+        }
+        return null;
+    }
+
+    static String copperGolemVariantKey(CopperGolem copperGolem) {
+        return switch (copperGolem.getWeatheringState()) {
+            case UNAFFECTED -> "unaffected";
+            case EXPOSED -> "exposed";
+            case WEATHERED -> "weathered";
+            case OXIDIZED -> "oxidized";
+        };
+    }
+
+    static String zombieNautilusVariantKey(ZombieNautilus.Variant variant) {
+        if (variant == ZombieNautilus.Variant.TEMPERATE) {
+            return "temperate";
+        }
+        if (variant == ZombieNautilus.Variant.WARM) {
+            return "warm";
+        }
+        return null;
     }
 
     static String pandaVariantKey(Panda.Gene mainGene, Panda.Gene hiddenGene) {
@@ -212,6 +284,23 @@ final class HeadVariantResolver {
         put(all, HeadType.ZOMBIE_VILLAGER, "weaponsmith", "Zombie Weaponsmith Head", "4370894b5cc305d87aa08c3b4b08587db68ff29e7a3ef354cad6abca50e5528b", "data/more_mob_heads/loot_table/entities/zombie_villager.json", "610b3eec72b8fb6f6d1d796f579f45920239833c");
         put(all, HeadType.GOAT, "normal", "Goat Head", "87473e055df6e7fd98664e9fdb63675f088106305d744024a41bb358918a142b", "data/more_mob_heads/loot_table/entities/goat.json", "66717150ffb1b96e35aa086f3d249344b7a4f3a1");
         put(all, HeadType.GOAT, "screaming", "Screaming Goat Head", "bda485ac23512420891a5ae1e8de989f091d848d15a9068da4720d316fc4330f", "data/more_mob_heads/loot_table/entities/goat.json", "66717150ffb1b96e35aa086f3d249344b7a4f3a1");
+
+        put(all, HeadType.COW, "cold", "Cold Cow Head", "d28d40507a0ec512cd9084c6db874e403fd396120574132a68ce10cafdd7b67c", "src/main/resources/data/more_mob_heads.json", "33ad209c4498514c7bc2726aeb1a2643334de6f2");
+        put(all, HeadType.COW, "temperate", "Temperate Cow Head", "d8fdc65e3ba09c12bc1d68fffb33d634305c014231b3d42a888e336ae490090f", "src/main/resources/data/more_mob_heads.json", "33ad209c4498514c7bc2726aeb1a2643334de6f2");
+        put(all, HeadType.COW, "warm", "Warm Cow Head", "ff344c9942ac35789fa6c1d602876c9f56f68f02e670de0ff81b7c831610ff5a", "src/main/resources/data/more_mob_heads.json", "33ad209c4498514c7bc2726aeb1a2643334de6f2");
+        put(all, HeadType.PIG, "cold", "Cold Pig Head", "ba18d4043cd6c903866788914fd534315281af9f259e34837e3e175e545c2ede", "src/main/resources/data/more_mob_heads.json", "33ad209c4498514c7bc2726aeb1a2643334de6f2");
+        put(all, HeadType.PIG, "temperate", "Temperate Pig Head", "41ee7681adf00067f04bf42611c97641075a44ae2b1c0381d5ac6b3246211bfe", "src/main/resources/data/more_mob_heads.json", "33ad209c4498514c7bc2726aeb1a2643334de6f2");
+        put(all, HeadType.PIG, "warm", "Warm Pig Head", "7beba1a2d56e84f8e51fed6659f2cb7c14fed43859af584737897bf70c039475", "src/main/resources/data/more_mob_heads.json", "33ad209c4498514c7bc2726aeb1a2643334de6f2");
+        put(all, HeadType.CHICKEN, "cold", "Cold Chicken Head", "5077361a18fc1dc3a0c8e2cee122db6cd0e2fb08033548ae9c47e6f33fa4db38", "src/main/resources/data/more_mob_heads.json", "33ad209c4498514c7bc2726aeb1a2643334de6f2");
+        put(all, HeadType.CHICKEN, "temperate", "Temperate Chicken Head", "42af6e5847eea099e1b0ab8c20a9e5f3c7190158bda54e28133d9b271ec0cb4b", "src/main/resources/data/more_mob_heads.json", "33ad209c4498514c7bc2726aeb1a2643334de6f2");
+        put(all, HeadType.CHICKEN, "warm", "Warm Chicken Head", "7d66b0a355aa27f3649dff4080fe92ab5f2a1e19ba8c7f15ca67506843dea0d7", "src/main/resources/data/more_mob_heads.json", "33ad209c4498514c7bc2726aeb1a2643334de6f2");
+
+        put(all, HeadType.COPPER_GOLEM, "unaffected", "Copper Golem Head", "ef40c1bec122265e979e4378dc8d8b13bd926ed2ad8984f493eb46f754474717", "src/main/resources/data/more_mob_heads.json", "33ad209c4498514c7bc2726aeb1a2643334de6f2");
+        put(all, HeadType.COPPER_GOLEM, "exposed", "Exposed Copper Golem Head", "aac2844c30097c96462d48ada064cf9aae366aa11fdc1569ece860f720d1c9e0", "src/main/resources/data/more_mob_heads.json", "33ad209c4498514c7bc2726aeb1a2643334de6f2");
+        put(all, HeadType.COPPER_GOLEM, "weathered", "Weathered Copper Golem Head", "d51795c439f5e2c4b08d90272127f29cb4e0b1a7d4eeb687591aa58003802a1a", "src/main/resources/data/more_mob_heads.json", "33ad209c4498514c7bc2726aeb1a2643334de6f2");
+        put(all, HeadType.COPPER_GOLEM, "oxidized", "Oxidized Copper Golem Head", "f6a4598420c3f2049962de4936317a36d250d13d6502ac7ccc62f55a137bde37", "src/main/resources/data/more_mob_heads.json", "33ad209c4498514c7bc2726aeb1a2643334de6f2");
+        put(all, HeadType.ZOMBIE_NAUTILUS, "temperate", "Temperate Zombie Nautilus Shell", "eb6d16bcbc858320e4eecb818abf29af825bcf91fac7989aba5536ab8ba40c0f", "src/main/resources/data/more_mob_heads.json", "33ad209c4498514c7bc2726aeb1a2643334de6f2");
+        put(all, HeadType.ZOMBIE_NAUTILUS, "warm", "Coral Zombie Nautilus Shell", "552ac2acc5e9ca23727f44879242b104fdd6e044f7fb2d29fefca4bc2f4d4c3", "src/main/resources/data/more_mob_heads.json", "33ad209c4498514c7bc2726aeb1a2643334de6f2");
 
         Map<HeadType, Map<String, HeadVariantAppearance>> frozen = new EnumMap<>(HeadType.class);
         for (Map.Entry<HeadType, Map<String, HeadVariantAppearance>> entry : all.entrySet()) {

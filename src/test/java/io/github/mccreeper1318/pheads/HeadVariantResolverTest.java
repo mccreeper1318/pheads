@@ -6,12 +6,18 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.lang.reflect.Proxy;
+import io.papermc.paper.world.WeatheringCopperState;
 import java.util.Map;
 import org.bukkit.DyeColor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Cat;
+import org.bukkit.entity.Chicken;
+import org.bukkit.entity.CopperGolem;
+import org.bukkit.entity.Cow;
 import org.bukkit.entity.Panda;
+import org.bukkit.entity.Pig;
 import org.bukkit.entity.Sheep;
+import org.bukkit.entity.ZombieNautilus;
 import org.junit.jupiter.api.Test;
 
 class HeadVariantResolverTest {
@@ -57,6 +63,97 @@ class HeadVariantResolverTest {
     }
 
     @Test
+    void cowPersistentVariantsResolveAllThreeAppearances() {
+        assertVariant(
+                proxy(Cow.class, Map.of("getVariant", Cow.Variant.COLD)),
+                HeadType.COW,
+                "cold",
+                "Cold Cow Head");
+        assertVariant(
+                proxy(Cow.class, Map.of("getVariant", Cow.Variant.TEMPERATE)),
+                HeadType.COW,
+                "temperate",
+                "Temperate Cow Head");
+        assertVariant(
+                proxy(Cow.class, Map.of("getVariant", Cow.Variant.WARM)),
+                HeadType.COW,
+                "warm",
+                "Warm Cow Head");
+    }
+
+    @Test
+    void pigPersistentVariantsResolveAllThreeAppearances() {
+        assertVariant(
+                proxy(Pig.class, Map.of("getVariant", Pig.Variant.COLD)),
+                HeadType.PIG,
+                "cold",
+                "Cold Pig Head");
+        assertVariant(
+                proxy(Pig.class, Map.of("getVariant", Pig.Variant.TEMPERATE)),
+                HeadType.PIG,
+                "temperate",
+                "Temperate Pig Head");
+        assertVariant(
+                proxy(Pig.class, Map.of("getVariant", Pig.Variant.WARM)),
+                HeadType.PIG,
+                "warm",
+                "Warm Pig Head");
+    }
+
+    @Test
+    void chickenPersistentVariantsResolveAllThreeAppearances() {
+        assertVariant(
+                proxy(Chicken.class, Map.of("getVariant", Chicken.Variant.COLD)),
+                HeadType.CHICKEN,
+                "cold",
+                "Cold Chicken Head");
+        assertVariant(
+                proxy(Chicken.class, Map.of("getVariant", Chicken.Variant.TEMPERATE)),
+                HeadType.CHICKEN,
+                "temperate",
+                "Temperate Chicken Head");
+        assertVariant(
+                proxy(Chicken.class, Map.of("getVariant", Chicken.Variant.WARM)),
+                HeadType.CHICKEN,
+                "warm",
+                "Warm Chicken Head");
+    }
+
+    @Test
+    void copperGolemWeatheringResolvesVisibleHeadVariant() {
+        CopperGolem weathered = proxy(
+                CopperGolem.class,
+                Map.of("getWeatheringState", WeatheringCopperState.WEATHERED));
+
+        HeadVariantAppearance appearance =
+                HeadVariantResolver.resolve(weathered, HeadType.COPPER_GOLEM);
+
+        assertEquals("weathered", appearance.key());
+        assertEquals("Weathered Copper Golem Head", appearance.displayName());
+        assertEquals(
+                "d51795c439f5e2c4b08d90272127f29cb4e0b1a7d4eeb687591aa58003802a1a",
+                appearance.textureHash());
+    }
+
+    @Test
+    void zombieNautilusVariantResolvesTemperateAndWarmAppearances() {
+        ZombieNautilus temperate = proxy(
+                ZombieNautilus.class,
+                Map.of("getVariant", ZombieNautilus.Variant.TEMPERATE));
+        ZombieNautilus warm = proxy(
+                ZombieNautilus.class,
+                Map.of("getVariant", ZombieNautilus.Variant.WARM));
+
+        assertEquals(
+                "temperate",
+                HeadVariantResolver.resolve(temperate, HeadType.ZOMBIE_NAUTILUS).key());
+        HeadVariantAppearance warmAppearance =
+                HeadVariantResolver.resolve(warm, HeadType.ZOMBIE_NAUTILUS);
+        assertEquals("warm", warmAppearance.key());
+        assertEquals("Coral Zombie Nautilus Shell", warmAppearance.displayName());
+    }
+
+    @Test
     void nonVariantMobHasNoAppearanceOverride() {
         assertNull(HeadVariantResolver.appearanceFor(HeadType.BLAZE, "anything"));
     }
@@ -70,7 +167,9 @@ class HeadVariantResolverTest {
             assertFalse(appearance.displayName().isBlank());
             assertTrue(appearance.textureHash().matches("[0-9a-f]+"), appearance.displayName());
             assertTrue(
-                    appearance.sourcePath().startsWith("data/more_mob_heads/loot_table/entities/"),
+                    appearance.sourcePath().startsWith("data/more_mob_heads/loot_table/entities/")
+                            || appearance.sourcePath()
+                                    .equals("src/main/resources/data/more_mob_heads.json"),
                     appearance.displayName());
             assertTrue(
                     appearance.sourceBlobSha().matches("[0-9a-f]{40}"),
@@ -89,6 +188,16 @@ class HeadVariantResolverTest {
         assertFalse(
                 HeadItemFactory.profileIdFor(HeadType.SHEEP)
                         .equals(HeadItemFactory.profileIdFor(HeadType.SHEEP, "white")));
+    }
+
+    private static void assertVariant(
+            org.bukkit.entity.Entity entity,
+            HeadType headType,
+            String expectedKey,
+            String expectedDisplayName) {
+        HeadVariantAppearance appearance = HeadVariantResolver.resolve(entity, headType);
+        assertEquals(expectedKey, appearance.key());
+        assertEquals(expectedDisplayName, appearance.displayName());
     }
 
     @SuppressWarnings("unchecked")
