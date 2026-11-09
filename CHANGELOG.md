@@ -1,10 +1,23 @@
 # Changelog
 
+## 0.1.2
+
+### Added
+
+- Added heads for eight newer Paper 26.3 mobs.
+- Added Copper Golem weathering and Zombie Nautilus variant heads.
+
+### Changed
+
+- Advanced development to 0.1.2.
+- Added pinned Teak's Tweaks texture provenance.
+
 ## 0.1.1
 
 ### Added
 
-- Added configurable Prize Heads with prize-first rolls, glint, lore, metadata, and particle bursts.\n- Added `/ph give trophy <mob-head>` for Prize Heads.
+- Added configurable Prize Heads with prize-first rolls, glint, lore, metadata, and particle bursts.
+- Added `/ph give trophy <mob-head>` for Prize Heads.
 
 ### Changed
 

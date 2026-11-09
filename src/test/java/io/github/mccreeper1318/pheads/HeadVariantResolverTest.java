@@ -6,12 +6,15 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.lang.reflect.Proxy;
+import io.papermc.paper.world.WeatheringCopperState;
 import java.util.Map;
 import org.bukkit.DyeColor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Cat;
+import org.bukkit.entity.CopperGolem;
 import org.bukkit.entity.Panda;
 import org.bukkit.entity.Sheep;
+import org.bukkit.entity.ZombieNautilus;
 import org.junit.jupiter.api.Test;
 
 class HeadVariantResolverTest {
@@ -57,6 +60,40 @@ class HeadVariantResolverTest {
     }
 
     @Test
+    void copperGolemWeatheringResolvesVisibleHeadVariant() {
+        CopperGolem weathered = proxy(
+                CopperGolem.class,
+                Map.of("getWeatheringState", WeatheringCopperState.WEATHERED));
+
+        HeadVariantAppearance appearance =
+                HeadVariantResolver.resolve(weathered, HeadType.COPPER_GOLEM);
+
+        assertEquals("weathered", appearance.key());
+        assertEquals("Weathered Copper Golem Head", appearance.displayName());
+        assertEquals(
+                "d51795c439f5e2c4b08d90272127f29cb4e0b1a7d4eeb687591aa58003802a1a",
+                appearance.textureHash());
+    }
+
+    @Test
+    void zombieNautilusVariantResolvesTemperateAndWarmAppearances() {
+        ZombieNautilus temperate = proxy(
+                ZombieNautilus.class,
+                Map.of("getVariant", ZombieNautilus.Variant.TEMPERATE));
+        ZombieNautilus warm = proxy(
+                ZombieNautilus.class,
+                Map.of("getVariant", ZombieNautilus.Variant.WARM));
+
+        assertEquals(
+                "temperate",
+                HeadVariantResolver.resolve(temperate, HeadType.ZOMBIE_NAUTILUS).key());
+        HeadVariantAppearance warmAppearance =
+                HeadVariantResolver.resolve(warm, HeadType.ZOMBIE_NAUTILUS);
+        assertEquals("warm", warmAppearance.key());
+        assertEquals("Coral Zombie Nautilus Shell", warmAppearance.displayName());
+    }
+
+    @Test
     void nonVariantMobHasNoAppearanceOverride() {
         assertNull(HeadVariantResolver.appearanceFor(HeadType.BLAZE, "anything"));
     }
@@ -70,7 +107,9 @@ class HeadVariantResolverTest {
             assertFalse(appearance.displayName().isBlank());
             assertTrue(appearance.textureHash().matches("[0-9a-f]+"), appearance.displayName());
             assertTrue(
-                    appearance.sourcePath().startsWith("data/more_mob_heads/loot_table/entities/"),
+                    appearance.sourcePath().startsWith("data/more_mob_heads/loot_table/entities/")
+                            || appearance.sourcePath()
+                                    .equals("src/main/resources/data/more_mob_heads.json"),
                     appearance.displayName());
             assertTrue(
                     appearance.sourceBlobSha().matches("[0-9a-f]{40}"),

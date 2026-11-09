@@ -133,6 +133,40 @@ class HeadTypeTest {
     }
 
     @Test
+    void allNewPaperTwentySixThreeMobTypesResolve() {
+        List<EntityType> supported = List.of(
+                EntityType.CREAKING,
+                EntityType.HAPPY_GHAST,
+                EntityType.COPPER_GOLEM,
+                EntityType.NAUTILUS,
+                EntityType.ZOMBIE_NAUTILUS,
+                EntityType.CAMEL_HUSK,
+                EntityType.PARCHED,
+                EntityType.SULFUR_CUBE);
+
+        for (EntityType entityType : supported) {
+            HeadType headType = HeadType.from(entityType);
+            assertNotNull(headType, entityType + " should have a head definition");
+            assertTrue(headType.customTextured(), entityType + " should use the custom-textured path");
+            assertEquals(Material.PLAYER_HEAD, headType.material());
+            assertEquals(2.5D, headType.defaultChance());
+        }
+    }
+
+    @Test
+    void newerMobHeadUsesPinnedTeaksTweaksTextureSource() {
+        assertEquals(
+                "http://textures.minecraft.net/texture/7505b062078d9753ddb9bc0ef0f4e32313d37ba50840db87458c7f6cbcff480c",
+                HeadType.HAPPY_GHAST.textureUrl());
+        assertEquals(
+                "src/main/resources/data/more_mob_heads.json",
+                HeadType.HAPPY_GHAST.textureSourcePath());
+        assertEquals(
+                "33ad209c4498514c7bc2726aeb1a2643334de6f2",
+                HeadType.HAPPY_GHAST.textureSourceBlobSha());
+    }
+
+    @Test
     void everyCustomHeadHasPinnedTextureProvenance() {
         for (HeadType headType : HeadType.values()) {
             if (!headType.customTextured()) {
@@ -141,8 +175,10 @@ class HeadTypeTest {
 
             assertTrue(headType.textureHash().matches("[0-9a-f]+"), headType + " should have a texture hash");
             assertTrue(
-                    headType.textureSourcePath().startsWith("data/more_mob_heads/loot_table/entities/"),
-                    headType + " should point to a More Mob Heads source file");
+                    headType.textureSourcePath().startsWith("data/more_mob_heads/loot_table/entities/")
+                            || headType.textureSourcePath()
+                                    .equals("src/main/resources/data/more_mob_heads.json"),
+                    headType + " should point to a pinned More Mob Heads source file");
             assertTrue(
                     headType.textureSourceBlobSha().matches("[0-9a-f]{40}"),
                     headType + " should pin a source blob SHA");

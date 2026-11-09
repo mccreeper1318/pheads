@@ -132,7 +132,7 @@ Prize Heads use a gold trophy name, permanent glint, rarity lore, and persistent
 
 PHeads adds configured drops without removing or replacing vanilla drops.
 
-Existing configuration files from earlier releases remain valid in 0.1.1. If a newly added mob key is absent from an older configuration, PHeads uses a `2.5%` drop chance for that mob until the key is added to `config.yml`.
+Existing configuration files from earlier releases remain valid in 0.1.2. If a newly added mob key is absent from an older configuration, PHeads uses a `2.5%` drop chance for that mob until the key is added to `config.yml`.
 
 ## Commands
 
@@ -161,7 +161,7 @@ Both command permissions default to server operators. Supported mob-head names a
 
 ### Custom-textured mob heads
 
-The following 75 mobs drop a `PLAYER_HEAD` with a fixed Minecraft texture reference and a mob-specific display name:
+The following 83 mobs drop a `PLAYER_HEAD` with a fixed Minecraft texture reference and a mob-specific display name:
 
 - Pig
 - Cow
@@ -238,14 +238,22 @@ The following 75 mobs drop a `PLAYER_HEAD` with a fixed Minecraft texture refere
 - Zoglin
 - Zombie Villager
 - Zombified Piglin
+- Creaking
+- Happy Ghast
+- Copper Golem
+- Nautilus
+- Zombie Nautilus
+- Camel Husk
+- Parched
+- Sulfur Cube
 
 The plugin does not call an external head API to create these items. It stores fixed profile/texture references that Minecraft resolves through `textures.minecraft.net`.
 
-The custom mob-head profile data is adapted from Vanilla Tweaks' **More Mob Heads** data pack under the Vanilla Tweaks project terms. Required attribution is in [`credits.txt`](credits.txt), and the exact canonical variant, texture hash, source path, and pinned source blob for every custom head are documented in [`docs/HEAD_TEXTURE_SOURCES.md`](docs/HEAD_TEXTURE_SOURCES.md).
+The original custom mob-head profile data is adapted from Vanilla Tweaks' **More Mob Heads** data pack under the Vanilla Tweaks project terms. Newer Paper 26.3 mob texture references are sourced from the MIT-licensed Teak's Tweaks More Mob Heads implementation. Attribution is in [`credits.txt`](credits.txt), and the exact texture hash, source path, and pinned source blob for every custom head are documented in [`docs/HEAD_TEXTURE_SOURCES.md`](docs/HEAD_TEXTURE_SOURCES.md).
 
-Natural drops use the killed mob's matching persistent variant when the pinned texture source provides one. Variant-aware mobs currently include sheep, cats, wolves, frogs, axolotls, rabbits, horses, llamas and trader llamas, parrots, pandas, foxes, mooshrooms, villagers, zombie villagers, and goats.
+Natural drops use the killed mob's matching persistent variant when the pinned texture source provides one. Variant-aware mobs currently include sheep, cats, wolves, frogs, axolotls, rabbits, horses, llamas and trader llamas, parrots, pandas, foxes, mooshrooms, villagers, zombie villagers, goats, Copper Golems, and Zombie Nautiluses.
 
-Variant selection intentionally ignores temporary states such as wolf anger, bee nectar/anger, strider cold state, and Vex charging. Horse heads currently distinguish color but not markings because the pinned source only provides color-specific horse heads. Villager and zombie-villager heads currently distinguish profession, not biome type. Name-driven Easter eggs such as `jeb_` sheep and Toast rabbits are not treated as normal entity variants.
+Variant selection intentionally ignores temporary states such as wolf anger, bee nectar/anger, strider cold state, and Vex charging. Copper Golems distinguish visible weathering but not behavioral state. Sulfur Cube archetypes currently share one canonical sourced head. Horse heads currently distinguish color but not markings because the pinned source only provides color-specific horse heads. Villager and zombie-villager heads currently distinguish profession, not biome type. Name-driven Easter eggs such as `jeb_` sheep and Toast rabbits are not treated as normal entity variants.
 
 The operator command `/ph give <mob-head>` continues to give the canonical/default appearance for that mob.
 
