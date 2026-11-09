@@ -4,13 +4,13 @@ This audit compares PHeads against Paper `26.3.build.135-beta`. It is documentat
 
 ## Current coverage
 
-PHeads defines 89 mob heads in the 0.1.2 development line: 6 native Minecraft head types and 83 custom-textured mob heads. Player heads are handled separately when enabled.
+PHeads defines 89 mob heads in the 0.1.1 development line: 6 native Minecraft head types and 83 custom-textured mob heads. Player heads are handled separately when enabled.
 
 The Paper 26.3 migration does not invalidate the existing `HeadType` catalog or current variant resolver coverage.
 
 ## Newer Paper 26.3 mobs
 
-Issue #20 adds the eight newer Paper 26.3 mobs to the 0.1.2 development line:
+Issue #20 adds the eight newer Paper 26.3 mobs to the 0.1.1 development line:
 
 - Creaking
 - Happy Ghast
@@ -68,11 +68,11 @@ Paper 26.3 exposes additional persistent visual data that PHeads does not curren
 
 Cow, pig, and chicken sound variants are audio-only and are not head appearances.
 
-These existing-mob appearance gaps are tracked in #30 for 0.1.2.
+These existing-mob appearance gaps are tracked in #30 for 0.1.1.
 
 ## Variant/state considerations for new mobs
 
-The 0.1.2 implementation evaluated the persistent appearance data exposed for the new mobs:
+The 0.1.1 implementation evaluated the persistent appearance data exposed for the new mobs:
 
 - **Zombie Nautilus:** `temperate` and `warm` variants use distinct sourced shell textures.
 - **Copper Golem:** unaffected, exposed, weathered, and oxidized states use distinct sourced head textures. Behavioral golem state is intentionally ignored.
@@ -84,14 +84,14 @@ PHeads' existing custom textures are pinned to Vanilla Tweaks More Mob Heads v2.
 
 That snapshot predates the eight newer mobs in #20. It also contains only one canonical head texture for cow, pig, chicken, salmon, snow golem, bogged, shulker, and tropical fish. For goats it contains only normal and screaming-goat textures, with no left/right horn-presence variants. It therefore cannot provide the missing appearances identified above.
 
-For the eight newer mobs, 0.1.2 uses the MIT-licensed Teak's Tweaks More Mob Heads data pinned at commit `5ca969779e614cc5f84012677b25fc01e5f1156c`, with `src/main/resources/data/more_mob_heads.json` pinned to Git blob `33ad209c4498514c7bc2726aeb1a2643334de6f2`. Unsupported variants remain intentionally omitted when no distinct pinned texture is available.
+For the eight newer mobs, 0.1.1 uses the MIT-licensed Teak's Tweaks More Mob Heads data pinned at commit `5ca969779e614cc5f84012677b25fc01e5f1156c`, with `src/main/resources/data/more_mob_heads.json` pinned to Git blob `33ad209c4498514c7bc2726aeb1a2643334de6f2`. Unsupported variants remain intentionally omitted when no distinct pinned texture is available.
 
 ## Follow-up work
 
-- #20 — implemented on the 0.1.2 development line with pinned texture provenance.
+- #20 — implemented on the 0.1.1 development line with pinned texture provenance.
 - #30 — add/evaluate missing persistent appearance variants for mobs PHeads already supports.
 
-The original 0.1.0 release remained limited to Paper 26.3 compatibility and the audit; new head content begins with the later 0.1.2 development line.
+The original 0.1.0 release remained limited to Paper 26.3 compatibility and the audit; new head content begins with the later 0.1.1 development line.
 
 ## Reference sources
 
