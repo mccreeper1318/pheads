@@ -2,7 +2,7 @@
 
 PHeads uses fixed Minecraft profile/texture references for supported mobs that do not have native Minecraft head items.
 
-The profile data listed below is adapted from the Vanilla Tweaks **More Mob Heads** data pack. Vanilla Tweaks' current terms and required attribution are available at https://vanillatweaks.net/terms/. The repository root also contains the required `credits.txt` attribution.
+Most original profile data listed below is adapted from the Vanilla Tweaks **More Mob Heads** data pack. Vanilla Tweaks' current terms and required attribution are available at https://vanillatweaks.net/terms/. Newer Paper 26.3 entries are sourced separately from Teak's Tweaks as described below. The repository root contains the relevant `credits.txt` attribution.
 
 To make the exact source bytes reproducible, the values were extracted from a preserved copy of **More Mob Heads v2.15.0 (MC 1.21-1.21.4)** in `RWELabs/Minecraft` at commit `4644939004389159c2a52b97e8b35a4dcf5ad75a`:
 
@@ -18,7 +18,7 @@ PHeads stores the texture hash/profile reference, not the PNG skin files, and do
 
 The canonical mappings below are used by commands and as fallbacks. Natural drops can override these canonical appearances with the matching persistent mob variant documented in the variant-aware mappings below.
 
-| PHeads key | Canonical appearance | Texture hash | Vanilla Tweaks source path | Pinned source blob |
+| PHeads key | Canonical appearance | Texture hash | Source path | Pinned source blob |
 | --- | --- | --- | --- | --- |
 | `pig` | Pig | `41ee7681adf00067f04bf42611c97641075a44ae2b1c0381d5ac6b3246211bfe` | `data/more_mob_heads/loot_table/entities/pig.json` | `1d3919599e3160de5c3e2ef9c8ea211761401f54` |
 | `cow` | Cow | `63d621100fea5883922e78bb448056448c983e3f97841948a2da747d6b08b8ab` | `data/more_mob_heads/loot_table/entities/cow.json` | `ce8cc1f549a5a96b3a98d9fafa4cba19462b862a` |
@@ -110,7 +110,7 @@ Natural drops use these mappings when Paper exposes the corresponding persistent
 
 Transient states are intentionally excluded. Wolf anger, bee anger/nectar, strider cold state, Vex charging, and Wither projectile textures are not variant collectibles. Horse markings, villager biome types, shulker colors, tropical-fish patterns/colors, and salmon sizes are not distinguished because the pinned source does not provide corresponding variant head mappings. Copper Golem behavioral state is not treated as a head variant; only visible weathering is. Sulfur Cube archetypes remain canonical-only because the pinned source provides one Sulfur Cube head rather than distinct archetype heads. Name-driven Easter eggs such as `jeb_` sheep and Toast rabbits are also outside the normal variant resolver.
 
-| PHeads key | Variant key | Display name | Texture hash | Vanilla Tweaks source path | Pinned source blob |
+| PHeads key | Variant key | Display name | Texture hash | Source path | Pinned source blob |
 | --- | --- | --- | --- | --- | --- |
 | `sheep` | `black` | Black Sheep Head | `13335e8065c7b5dfea58d3df7474f396af4fa0a2ba52a3c9b7fba68319271c91` | `data/more_mob_heads/loot_table/entities/sheep/black.json` | `80a62c5aeb1c3bc03d7920813ece95fa011c6357` |
 | `sheep` | `blue` | Blue Sheep Head | `740e277da6c398b749a32f9d080f1cf4c4ef3f1f20dd9e5f422509e7ff593c0` | `data/more_mob_heads/loot_table/entities/sheep/blue.json` | `176b76c21f22717e2c2c7c2b5554bfe6b3226209` |
