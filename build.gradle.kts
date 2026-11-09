@@ -29,7 +29,7 @@ dependencies {
 
     testImplementation(platform("org.junit:junit-bom:6.1.3"))
     testImplementation("org.junit.jupiter:junit-jupiter")
-    testImplementation("org.mockbukkit.mockbukkit:mockbukkit-v26.3:4.118.0") {
+    testImplementation("org.mockbukkit.mockbukkit:mockbukkit-v26.3:4.119.0") {
         exclude(group = "io.papermc.paper", module = "paper-api")
     }
     testImplementation("io.papermc.paper:paper-api:26.3.build.178-stable")
