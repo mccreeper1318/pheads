@@ -72,9 +72,9 @@ final class HeadVariantResolver {
             case MOOSHROOM -> entity instanceof MushroomCow mushroomCow
                     ? enumKey(mushroomCow.getVariant())
                     : null;
-            case COW -> entity instanceof Cow cow ? enumKey(cow.getVariant()) : null;
-            case PIG -> entity instanceof Pig pig ? enumKey(pig.getVariant()) : null;
-            case CHICKEN -> entity instanceof Chicken chicken ? enumKey(chicken.getVariant()) : null;
+            case COW -> entity instanceof Cow cow ? cowVariantKey(cow.getVariant()) : null;
+            case PIG -> entity instanceof Pig pig ? pigVariantKey(pig.getVariant()) : null;
+            case CHICKEN -> entity instanceof Chicken chicken ? chickenVariantKey(chicken.getVariant()) : null;
             case VILLAGER -> entity instanceof Villager villager ? keyedKey(villager.getProfession()) : null;
             case ZOMBIE_VILLAGER -> entity instanceof ZombieVillager zombieVillager
                     ? keyedKeyOrNone(zombieVillager.getVillagerProfession())
@@ -88,6 +88,45 @@ final class HeadVariantResolver {
                     : null;
             default -> null;
         };
+    }
+
+    static String cowVariantKey(Cow.Variant variant) {
+        if (variant == Cow.Variant.COLD) {
+            return "cold";
+        }
+        if (variant == Cow.Variant.TEMPERATE) {
+            return "temperate";
+        }
+        if (variant == Cow.Variant.WARM) {
+            return "warm";
+        }
+        return null;
+    }
+
+    static String pigVariantKey(Pig.Variant variant) {
+        if (variant == Pig.Variant.COLD) {
+            return "cold";
+        }
+        if (variant == Pig.Variant.TEMPERATE) {
+            return "temperate";
+        }
+        if (variant == Pig.Variant.WARM) {
+            return "warm";
+        }
+        return null;
+    }
+
+    static String chickenVariantKey(Chicken.Variant variant) {
+        if (variant == Chicken.Variant.COLD) {
+            return "cold";
+        }
+        if (variant == Chicken.Variant.TEMPERATE) {
+            return "temperate";
+        }
+        if (variant == Chicken.Variant.WARM) {
+            return "warm";
+        }
+        return null;
     }
 
     static String copperGolemVariantKey(CopperGolem copperGolem) {
