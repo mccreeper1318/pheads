@@ -4,13 +4,13 @@ This audit compares PHeads against Paper `26.3.build.135-beta`. It is documentat
 
 ## Current coverage
 
-PHeads defines 89 mob heads in the 0.1.2 development line: 6 native Minecraft head types and 83 custom-textured mob heads. Player heads are handled separately when enabled.
+PHeads defines 89 mob heads in the 0.1.1 development line: 6 native Minecraft head types and 83 custom-textured mob heads. Player heads are handled separately when enabled.
 
 The Paper 26.3 migration does not invalidate the existing `HeadType` catalog or current variant resolver coverage.
 
 ## Newer Paper 26.3 mobs
 
-Issue #20 adds the eight newer Paper 26.3 mobs to the 0.1.2 development line:
+Issue #20 adds the eight newer Paper 26.3 mobs to the 0.1.1 development line:
 
 - Creaking
 - Happy Ghast
@@ -52,9 +52,9 @@ Temporary states such as anger, charging, nectar, or the strider cold state are 
 
 ## Issue #30 persistent appearance evaluation
 
-Paper 26.3 exposes additional persistent visual data on existing supported mobs. The 0.1.2 evaluation produced the following result:
+Paper 26.3 exposes additional persistent visual data on existing supported mobs. The 0.1.1 evaluation produced the following result:
 
-| Mob | Paper 26.3 appearance data | 0.1.2 result |
+| Mob | Paper 26.3 appearance data | 0.1.1 result |
 | --- | --- | --- |
 | Cow | `cold`, `temperate`, `warm` variants | implemented with three pinned textures |
 | Pig | `cold`, `temperate`, `warm` variants | implemented with three pinned textures |
@@ -73,7 +73,7 @@ Cow, pig, and chicken sound variants are audio-only and are not head appearances
 
 ## Variant/state considerations for new mobs
 
-The 0.1.2 implementation evaluated the persistent appearance data exposed for the new mobs:
+The 0.1.1 implementation evaluated the persistent appearance data exposed for the new mobs:
 
 - **Zombie Nautilus:** `temperate` and `warm` variants use distinct sourced shell textures.
 - **Copper Golem:** unaffected, exposed, weathered, and oxidized states use distinct sourced head textures. Behavioral golem state is intentionally ignored.
@@ -85,14 +85,14 @@ PHeads' existing custom textures are pinned to Vanilla Tweaks More Mob Heads v2.
 
 That snapshot predates the eight newer mobs in #20 and does not contain the newer cow, pig, or chicken appearance sets.
 
-For 0.1.2, PHeads uses the MIT-licensed Teak's Tweaks More Mob Heads data pinned at commit `5ca969779e614cc5f84012677b25fc01e5f1156c`, with `src/main/resources/data/more_mob_heads.json` pinned to Git blob `33ad209c4498514c7bc2726aeb1a2643334de6f2`. This source provides complete cold/temperate/warm textures for cows, pigs, and chickens, so #30 implements those nine appearances. The same pinned data contains only one salmon, snow golem, bogged, shulker, and tropical-fish head; normal/screaming goats without horn-presence sets; profession-only villager heads; and color-only horse heads. Those remaining candidates are intentionally unsupported rather than fabricated.
+For 0.1.1, PHeads uses the MIT-licensed Teak's Tweaks More Mob Heads data pinned at commit `5ca969779e614cc5f84012677b25fc01e5f1156c`, with `src/main/resources/data/more_mob_heads.json` pinned to Git blob `33ad209c4498514c7bc2726aeb1a2643334de6f2`. This source provides complete cold/temperate/warm textures for cows, pigs, and chickens, so #30 implements those nine appearances. The same pinned data contains only one salmon, snow golem, bogged, shulker, and tropical-fish head; normal/screaming goats without horn-presence sets; profession-only villager heads; and color-only horse heads. Those remaining candidates are intentionally unsupported rather than fabricated.
 
 ## Follow-up work
 
-- #20 — implemented on the 0.1.2 development line with pinned texture provenance.
+- #20 — implemented on the 0.1.1 development line with pinned texture provenance.
 - #30 — implements sourced cow, pig, and chicken variants and records the remaining evaluated candidates as intentionally unsupported.
 
-The original 0.1.0 release remained limited to Paper 26.3 compatibility and the audit; new head content begins with the later 0.1.2 development line.
+The original 0.1.0 release remained limited to Paper 26.3 compatibility and the audit; new head content begins with the later 0.1.1 development line.
 
 ## Reference sources
 
