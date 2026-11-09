@@ -41,34 +41,35 @@ PHeads currently resolves persistent appearance variants for:
 - panda genes
 - fox type
 - mooshroom variant
+- cow variant
+- pig variant
+- chicken variant
 - villager profession
 - zombie-villager profession
 - screaming goat state
 
 Temporary states such as anger, charging, nectar, or the strider cold state are intentionally not treated as head variants.
 
-## Confirmed persistent appearance gaps on supported mobs
+## Issue #30 persistent appearance evaluation
 
-Paper 26.3 exposes additional persistent visual data that PHeads does not currently use:
+Paper 26.3 exposes additional persistent visual data on existing supported mobs. The 0.1.1 evaluation produced the following result:
 
-| Mob | Paper 26.3 appearance data | PHeads status |
+| Mob | Paper 26.3 appearance data | 0.1.1 result |
 | --- | --- | --- |
-| Cow | `cold`, `temperate`, `warm` variants | canonical texture only |
-| Pig | `cold`, `temperate`, `warm` variants | canonical texture only |
-| Chicken | `cold`, `temperate`, `warm` variants | canonical texture only |
-| Salmon | `small`, `medium`, `large` size variants | canonical texture only |
-| Snow Golem | pumpkin/derp state via `Snowman#isDerp()`; derp mode means no pumpkin | canonical texture only |
-| Bogged | sheared state via `Bogged#isSheared()` | canonical texture only |
-| Goat | left/right horn presence via `Goat#hasLeftHorn()` / `hasRightHorn()` in addition to screaming state | screaming state only; horn presence ignored |
-| Shulker | dye color | canonical texture only |
-| Tropical Fish | pattern, body color, pattern color | canonical texture only |
-| Villager | biome/type in addition to profession | profession only |
-| Zombie Villager | biome/type in addition to profession | profession only |
-| Horse | markings in addition to color | color only; already intentionally limited by source data |
+| Cow | `cold`, `temperate`, `warm` variants | implemented with three pinned textures |
+| Pig | `cold`, `temperate`, `warm` variants | implemented with three pinned textures |
+| Chicken | `cold`, `temperate`, `warm` variants | implemented with three pinned textures |
+| Salmon | `small`, `medium`, `large` size variants | intentionally unsupported; pinned source has one salmon head |
+| Snow Golem | pumpkin/derp state via `Snowman#isDerp()`; derp mode means no pumpkin | intentionally unsupported; pinned source has one snow-golem head |
+| Bogged | sheared state via `Bogged#isSheared()` | intentionally unsupported; pinned source has one bogged head |
+| Goat | left/right horn presence via `Goat#hasLeftHorn()` / `hasRightHorn()` plus screaming state | intentionally unsupported beyond normal/screaming; no horn-presence texture sets |
+| Shulker | dye color | intentionally unsupported; pinned source has one shulker head |
+| Tropical Fish | pattern, body color, pattern color | intentionally unsupported; pinned source has one canonical head and no practical combination matrix |
+| Villager | biome/type in addition to profession | profession-only; pinned source has no biome/type-by-profession matrix |
+| Zombie Villager | biome/type in addition to profession | profession-only; pinned source has no biome/type-by-profession matrix |
+| Horse | markings in addition to color | color-only; pinned source has no marking-by-color matrix |
 
-Cow, pig, and chicken sound variants are audio-only and are not head appearances.
-
-These existing-mob appearance gaps are tracked in #30 for 0.1.1.
+Cow, pig, and chicken sound variants are audio-only and are not head appearances. No unsupported appearance is synthesized or guessed.
 
 ## Variant/state considerations for new mobs
 
@@ -82,14 +83,14 @@ The 0.1.1 implementation evaluated the persistent appearance data exposed for th
 
 PHeads' existing custom textures are pinned to Vanilla Tweaks More Mob Heads v2.15.0 (MC 1.21-1.21.4), preserved at RWELabs/Minecraft commit `4644939004389159c2a52b97e8b35a4dcf5ad75a`.
 
-That snapshot predates the eight newer mobs in #20. It also contains only one canonical head texture for cow, pig, chicken, salmon, snow golem, bogged, shulker, and tropical fish. For goats it contains only normal and screaming-goat textures, with no left/right horn-presence variants. It therefore cannot provide the missing appearances identified above.
+That snapshot predates the eight newer mobs in #20 and does not contain the newer cow, pig, or chicken appearance sets.
 
-For the eight newer mobs, 0.1.1 uses the MIT-licensed Teak's Tweaks More Mob Heads data pinned at commit `5ca969779e614cc5f84012677b25fc01e5f1156c`, with `src/main/resources/data/more_mob_heads.json` pinned to Git blob `33ad209c4498514c7bc2726aeb1a2643334de6f2`. Unsupported variants remain intentionally omitted when no distinct pinned texture is available.
+For 0.1.1, PHeads uses the MIT-licensed Teak's Tweaks More Mob Heads data pinned at commit `5ca969779e614cc5f84012677b25fc01e5f1156c`, with `src/main/resources/data/more_mob_heads.json` pinned to Git blob `33ad209c4498514c7bc2726aeb1a2643334de6f2`. This source provides complete cold/temperate/warm textures for cows, pigs, and chickens, so #30 implements those nine appearances. The same pinned data contains only one salmon, snow golem, bogged, shulker, and tropical-fish head; normal/screaming goats without horn-presence sets; profession-only villager heads; and color-only horse heads. Those remaining candidates are intentionally unsupported rather than fabricated.
 
 ## Follow-up work
 
 - #20 — implemented on the 0.1.1 development line with pinned texture provenance.
-- #30 — add/evaluate missing persistent appearance variants for mobs PHeads already supports.
+- #30 — implements sourced cow, pig, and chicken variants and records the remaining evaluated candidates as intentionally unsupported.
 
 The original 0.1.0 release remained limited to Paper 26.3 compatibility and the audit; new head content begins with the later 0.1.1 development line.
 
