@@ -6,11 +6,13 @@
 
 - Added heads for eight newer Paper 26.3 mobs.
 - Added Copper Golem weathering and Zombie Nautilus variant heads.
+- Added cold, temperate, and warm Cow, Pig, and Chicken heads.
 
 ### Changed
 
 - Advanced development to 0.1.2.
 - Added pinned Teak's Tweaks texture provenance.
+- Documented unsupported persistent variants where no distinct sourced heads are available.
 
 ## 0.1.1
 
