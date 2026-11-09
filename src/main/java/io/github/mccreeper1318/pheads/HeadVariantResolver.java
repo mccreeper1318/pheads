@@ -8,6 +8,7 @@ import java.util.Map;
 import org.bukkit.Keyed;
 import org.bukkit.entity.Axolotl;
 import org.bukkit.entity.Cat;
+import org.bukkit.entity.CopperGolem;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Fox;
 import org.bukkit.entity.Frog;
@@ -21,6 +22,7 @@ import org.bukkit.entity.Rabbit;
 import org.bukkit.entity.Sheep;
 import org.bukkit.entity.Villager;
 import org.bukkit.entity.Wolf;
+import org.bukkit.entity.ZombieNautilus;
 import org.bukkit.entity.ZombieVillager;
 
 final class HeadVariantResolver {
@@ -72,8 +74,33 @@ final class HeadVariantResolver {
                     ? keyedKeyOrNone(zombieVillager.getVillagerProfession())
                     : null;
             case GOAT -> entity instanceof Goat goat ? (goat.isScreaming() ? "screaming" : "normal") : null;
+            case COPPER_GOLEM -> entity instanceof CopperGolem copperGolem
+                    ? copperGolemVariantKey(copperGolem)
+                    : null;
+            case ZOMBIE_NAUTILUS -> entity instanceof ZombieNautilus zombieNautilus
+                    ? zombieNautilusVariantKey(zombieNautilus.getVariant())
+                    : null;
             default -> null;
         };
+    }
+
+    static String copperGolemVariantKey(CopperGolem copperGolem) {
+        return switch (copperGolem.getWeatheringState()) {
+            case UNAFFECTED -> "unaffected";
+            case EXPOSED -> "exposed";
+            case WEATHERED -> "weathered";
+            case OXIDIZED -> "oxidized";
+        };
+    }
+
+    static String zombieNautilusVariantKey(ZombieNautilus.Variant variant) {
+        if (variant == ZombieNautilus.Variant.TEMPERATE) {
+            return "temperate";
+        }
+        if (variant == ZombieNautilus.Variant.WARM) {
+            return "warm";
+        }
+        return null;
     }
 
     static String pandaVariantKey(Panda.Gene mainGene, Panda.Gene hiddenGene) {
@@ -212,6 +239,13 @@ final class HeadVariantResolver {
         put(all, HeadType.ZOMBIE_VILLAGER, "weaponsmith", "Zombie Weaponsmith Head", "4370894b5cc305d87aa08c3b4b08587db68ff29e7a3ef354cad6abca50e5528b", "data/more_mob_heads/loot_table/entities/zombie_villager.json", "610b3eec72b8fb6f6d1d796f579f45920239833c");
         put(all, HeadType.GOAT, "normal", "Goat Head", "87473e055df6e7fd98664e9fdb63675f088106305d744024a41bb358918a142b", "data/more_mob_heads/loot_table/entities/goat.json", "66717150ffb1b96e35aa086f3d249344b7a4f3a1");
         put(all, HeadType.GOAT, "screaming", "Screaming Goat Head", "bda485ac23512420891a5ae1e8de989f091d848d15a9068da4720d316fc4330f", "data/more_mob_heads/loot_table/entities/goat.json", "66717150ffb1b96e35aa086f3d249344b7a4f3a1");
+
+        put(all, HeadType.COPPER_GOLEM, "unaffected", "Copper Golem Head", "ef40c1bec122265e979e4378dc8d8b13bd926ed2ad8984f493eb46f754474717", "src/main/resources/data/more_mob_heads.json", "33ad209c4498514c7bc2726aeb1a2643334de6f2");
+        put(all, HeadType.COPPER_GOLEM, "exposed", "Exposed Copper Golem Head", "aac2844c30097c96462d48ada064cf9aae366aa11fdc1569ece860f720d1c9e0", "src/main/resources/data/more_mob_heads.json", "33ad209c4498514c7bc2726aeb1a2643334de6f2");
+        put(all, HeadType.COPPER_GOLEM, "weathered", "Weathered Copper Golem Head", "d51795c439f5e2c4b08d90272127f29cb4e0b1a7d4eeb687591aa58003802a1a", "src/main/resources/data/more_mob_heads.json", "33ad209c4498514c7bc2726aeb1a2643334de6f2");
+        put(all, HeadType.COPPER_GOLEM, "oxidized", "Oxidized Copper Golem Head", "f6a4598420c3f2049962de4936317a36d250d13d6502ac7ccc62f55a137bde37", "src/main/resources/data/more_mob_heads.json", "33ad209c4498514c7bc2726aeb1a2643334de6f2");
+        put(all, HeadType.ZOMBIE_NAUTILUS, "temperate", "Temperate Zombie Nautilus Shell", "eb6d16bcbc858320e4eecb818abf29af825bcf91fac7989aba5536ab8ba40c0f", "src/main/resources/data/more_mob_heads.json", "33ad209c4498514c7bc2726aeb1a2643334de6f2");
+        put(all, HeadType.ZOMBIE_NAUTILUS, "warm", "Coral Zombie Nautilus Shell", "552ac2acc5e9ca23727f44879242b104fdd6e044f7fb2d29fefca4bc2f4d4c3", "src/main/resources/data/more_mob_heads.json", "33ad209c4498514c7bc2726aeb1a2643334de6f2");
 
         Map<HeadType, Map<String, HeadVariantAppearance>> frozen = new EnumMap<>(HeadType.class);
         for (Map.Entry<HeadType, Map<String, HeadVariantAppearance>> entry : all.entrySet()) {
