@@ -226,6 +226,15 @@ Transient states are intentionally excluded. Wolf anger, bee anger/nectar, strid
 | `zombie-villager` | `weaponsmith` | Zombie Weaponsmith Head | `4370894b5cc305d87aa08c3b4b08587db68ff29e7a3ef354cad6abca50e5528b` | `data/more_mob_heads/loot_table/entities/zombie_villager.json` | `610b3eec72b8fb6f6d1d796f579f45920239833c` |
 | `goat` | `normal` | Goat Head | `87473e055df6e7fd98664e9fdb63675f088106305d744024a41bb358918a142b` | `data/more_mob_heads/loot_table/entities/goat.json` | `66717150ffb1b96e35aa086f3d249344b7a4f3a1` |
 | `goat` | `screaming` | Screaming Goat Head | `bda485ac23512420891a5ae1e8de989f091d848d15a9068da4720d316fc4330f` | `data/more_mob_heads/loot_table/entities/goat.json` | `66717150ffb1b96e35aa086f3d249344b7a4f3a1` |
+| `cow` | `cold` | Cold Cow Head | `d28d40507a0ec512cd9084c6db874e403fd396120574132a68ce10cafdd7b67c` | `src/main/resources/data/more_mob_heads.json` | `33ad209c4498514c7bc2726aeb1a2643334de6f2` |
+| `cow` | `temperate` | Temperate Cow Head | `d8fdc65e3ba09c12bc1d68fffb33d634305c014231b3d42a888e336ae490090f` | `src/main/resources/data/more_mob_heads.json` | `33ad209c4498514c7bc2726aeb1a2643334de6f2` |
+| `cow` | `warm` | Warm Cow Head | `ff344c9942ac35789fa6c1d602876c9f56f68f02e670de0ff81b7c831610ff5a` | `src/main/resources/data/more_mob_heads.json` | `33ad209c4498514c7bc2726aeb1a2643334de6f2` |
+| `pig` | `cold` | Cold Pig Head | `ba18d4043cd6c903866788914fd534315281af9f259e34837e3e175e545c2ede` | `src/main/resources/data/more_mob_heads.json` | `33ad209c4498514c7bc2726aeb1a2643334de6f2` |
+| `pig` | `temperate` | Temperate Pig Head | `41ee7681adf00067f04bf42611c97641075a44ae2b1c0381d5ac6b3246211bfe` | `src/main/resources/data/more_mob_heads.json` | `33ad209c4498514c7bc2726aeb1a2643334de6f2` |
+| `pig` | `warm` | Warm Pig Head | `7beba1a2d56e84f8e51fed6659f2cb7c14fed43859af584737897bf70c039475` | `src/main/resources/data/more_mob_heads.json` | `33ad209c4498514c7bc2726aeb1a2643334de6f2` |
+| `chicken` | `cold` | Cold Chicken Head | `5077361a18fc1dc3a0c8e2cee122db6cd0e2fb08033548ae9c47e6f33fa4db38` | `src/main/resources/data/more_mob_heads.json` | `33ad209c4498514c7bc2726aeb1a2643334de6f2` |
+| `chicken` | `temperate` | Temperate Chicken Head | `42af6e5847eea099e1b0ab8c20a9e5f3c7190158bda54e28133d9b271ec0cb4b` | `src/main/resources/data/more_mob_heads.json` | `33ad209c4498514c7bc2726aeb1a2643334de6f2` |
+| `chicken` | `warm` | Warm Chicken Head | `7d66b0a355aa27f3649dff4080fe92ab5f2a1e19ba8c7f15ca67506843dea0d7` | `src/main/resources/data/more_mob_heads.json` | `33ad209c4498514c7bc2726aeb1a2643334de6f2` |
 | `copper-golem` | `unaffected` | Copper Golem Head | `ef40c1bec122265e979e4378dc8d8b13bd926ed2ad8984f493eb46f754474717` | `src/main/resources/data/more_mob_heads.json` | `33ad209c4498514c7bc2726aeb1a2643334de6f2` |
 | `copper-golem` | `exposed` | Exposed Copper Golem Head | `aac2844c30097c96462d48ada064cf9aae366aa11fdc1569ece860f720d1c9e0` | `src/main/resources/data/more_mob_heads.json` | `33ad209c4498514c7bc2726aeb1a2643334de6f2` |
 | `copper-golem` | `weathered` | Weathered Copper Golem Head | `d51795c439f5e2c4b08d90272127f29cb4e0b1a7d4eeb687591aa58003802a1a` | `src/main/resources/data/more_mob_heads.json` | `33ad209c4498514c7bc2726aeb1a2643334de6f2` |
@@ -233,6 +242,23 @@ Transient states are intentionally excluded. Wolf anger, bee anger/nectar, strid
 | `zombie-nautilus` | `temperate` | Temperate Zombie Nautilus Shell | `eb6d16bcbc858320e4eecb818abf29af825bcf91fac7989aba5536ab8ba40c0f` | `src/main/resources/data/more_mob_heads.json` | `33ad209c4498514c7bc2726aeb1a2643334de6f2` |
 | `zombie-nautilus` | `warm` | Coral Zombie Nautilus Shell | `552ac2acc5e9ca23727f44879242b104fdd6e044f7fb2d29fefca4bc2f4d4c3` | `src/main/resources/data/more_mob_heads.json` | `33ad209c4498514c7bc2726aeb1a2643334de6f2` |
 
+
+## Issue #30 variant evaluation
+
+The pinned Teak's Tweaks snapshot provides complete `cold`, `temperate`, and `warm` head sets for cows, pigs, and chickens, so those persistent appearance variants are implemented in 0.1.2.
+
+The same pinned source was explicitly checked for the remaining Paper 26.3 appearance candidates. They remain intentionally unsupported because no distinct sourced head set is present:
+
+- **Salmon:** one canonical `salmon` head only; no small/medium/large heads.
+- **Snow Golem:** one canonical `snow_golem` head only; no separate pumpkin/derp head.
+- **Bogged:** one canonical `bogged` head only; no separate sheared head.
+- **Goat horns:** normal and screaming heads exist, but no left-only, right-only, or hornless sets for either behavior type.
+- **Shulker:** one canonical `shulker` head only; no dye-color head set.
+- **Tropical Fish:** one canonical `tropical_fish` head only; no practical pattern/body-color/pattern-color matrix.
+- **Villager / Zombie Villager:** profession heads exist, but no biome/type-by-profession head matrix.
+- **Horse markings:** color heads exist, but no marking-by-color head matrix.
+
+These properties are still persistent visual states in Paper; PHeads simply does not fabricate variant textures when the pinned source does not provide them.
 
 ## Adding another custom head
 
