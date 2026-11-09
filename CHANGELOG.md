@@ -1,29 +1,20 @@
 # Changelog
 
-## 0.1.2
-
-### Added
-
-- Added heads for eight newer Paper 26.3 mobs.
-- Added Copper Golem weathering and Zombie Nautilus variant heads.
-- Added cold, temperate, and warm Cow, Pig, and Chicken heads.
-
-### Changed
-
-- Advanced development to 0.1.2.
-- Added pinned Teak's Tweaks texture provenance.
-- Documented unsupported persistent variants where no distinct sourced heads are available.
-
 ## 0.1.1
 
 ### Added
 
 - Added configurable Prize Heads with prize-first rolls, glint, lore, metadata, and particle bursts.
 - Added `/ph give trophy <mob-head>` for Prize Heads.
+- Added heads for eight newer Paper 26.3 mobs.
+- Added Copper Golem weathering and Zombie Nautilus variant heads.
+- Added cold, temperate, and warm Cow, Pig, and Chicken heads.
 
 ### Changed
 
 - Updated Gradle wrapper to 9.8.2.
+- Added pinned Teak's Tweaks texture provenance.
+- Documented unsupported persistent variants where no distinct sourced heads are available.
 
 ## 0.1.0
 
@@ -37,7 +28,7 @@
 - Updated the Paper API target from 26.2 stable to 26.3 beta and declared Paper API version 26.3.
 - Updated the pinned Paper 26.3 beta API from build 135 to build 159.
 - Updated the pinned Paper 26.3 API from beta build 159 to stable build 178.
-- Audited Paper 26.3 mob and persistent-variant coverage; deferred new head and variant support to 0.1.2 pending pinned texture provenance.
+- Audited Paper 26.3 mob and persistent-variant coverage; deferred new head and variant support to 0.1.1 pending pinned texture provenance.
 - Release workflow now explicitly marks `alpha`, `beta`, and `rc` tags such as `0.1.0-beta.1` as GitHub prereleases and prevents them from becoming the latest stable release.
 
 ## 0.0.3
