@@ -89,7 +89,16 @@ enum HeadType {
     WITHER(EntityType.WITHER, "wither", "Wither Head", "eda10828f63b7ecdefd767b3245fbdaa13c3ec0c6b13774f1ee8d307c034c383", "data/more_mob_heads/loot_table/entities/wither.json", "0ffde2c41efa7764398f590c7635bb44b3e66afd", 2.5D),
     ZOGLIN(EntityType.ZOGLIN, "zoglin", "Zoglin Head", "2e3493a956bfd7588ed1a8ea858759667659d58100cbecd6d96ccc0ca9b36923", "data/more_mob_heads/loot_table/entities/zoglin.json", "077390588b0e12fdd9f10c5d8ed812e15791036c", 2.5D),
     ZOMBIE_VILLAGER(EntityType.ZOMBIE_VILLAGER, "zombie-villager", "Zombie Villager Head", "c8679e034767d518660d9416dc5eaf319d697682ac40c886e3c2bc8dfa1de1d", "data/more_mob_heads/loot_table/entities/zombie_villager.json", "610b3eec72b8fb6f6d1d796f579f45920239833c", 2.5D),
-    ZOMBIFIED_PIGLIN(EntityType.ZOMBIFIED_PIGLIN, "zombified-piglin", "Zombified Piglin Head", "2df03128b002a70708d6825ed6cf54ddf694b3766d78d5649030b1cb8b34c6fa", "data/more_mob_heads/loot_table/entities/zombified_piglin.json", "19153ca18e54f3c480630b83c0e80a59ddac9b92", 2.5D);
+    ZOMBIFIED_PIGLIN(EntityType.ZOMBIFIED_PIGLIN, "zombified-piglin", "Zombified Piglin Head", "2df03128b002a70708d6825ed6cf54ddf694b3766d78d5649030b1cb8b34c6fa", "data/more_mob_heads/loot_table/entities/zombified_piglin.json", "19153ca18e54f3c480630b83c0e80a59ddac9b92", 2.5D),
+
+    CREAKING(EntityType.CREAKING, "creaking", "Creaking Head", "fc077c975f13dbdaeda5f0d2016eb3af51e4c27d9714a123c4128901505c788c", "src/main/resources/data/more_mob_heads.json", "33ad209c4498514c7bc2726aeb1a2643334de6f2", 2.5D),
+    HAPPY_GHAST(EntityType.HAPPY_GHAST, "happy-ghast", "Happy Ghast Head", "7505b062078d9753ddb9bc0ef0f4e32313d37ba50840db87458c7f6cbcff480c", "src/main/resources/data/more_mob_heads.json", "33ad209c4498514c7bc2726aeb1a2643334de6f2", 2.5D),
+    COPPER_GOLEM(EntityType.COPPER_GOLEM, "copper-golem", "Copper Golem Head", "ef40c1bec122265e979e4378dc8d8b13bd926ed2ad8984f493eb46f754474717", "src/main/resources/data/more_mob_heads.json", "33ad209c4498514c7bc2726aeb1a2643334de6f2", 2.5D),
+    NAUTILUS(EntityType.NAUTILUS, "nautilus", "Nautilus Shell", "2708cf9900399060c9280c6b3b88cbe536e722c0eebc932a9c5fa0140d0362fc", "src/main/resources/data/more_mob_heads.json", "33ad209c4498514c7bc2726aeb1a2643334de6f2", 2.5D),
+    ZOMBIE_NAUTILUS(EntityType.ZOMBIE_NAUTILUS, "zombie-nautilus", "Zombie Nautilus Shell", "eb6d16bcbc858320e4eecb818abf29af825bcf91fac7989aba5536ab8ba40c0f", "src/main/resources/data/more_mob_heads.json", "33ad209c4498514c7bc2726aeb1a2643334de6f2", 2.5D),
+    CAMEL_HUSK(EntityType.CAMEL_HUSK, "camel-husk", "Camel Husk Head", "c7d43463d848941159430a232b4d5c17b3b842f866b54a33e748476e40874747", "src/main/resources/data/more_mob_heads.json", "33ad209c4498514c7bc2726aeb1a2643334de6f2", 2.5D),
+    PARCHED(EntityType.PARCHED, "parched", "Parched Head", "24aeceff5f26dd8413c5c03547c234ac03108d187af0b9cd834a8ce12598591c", "src/main/resources/data/more_mob_heads.json", "33ad209c4498514c7bc2726aeb1a2643334de6f2", 2.5D),
+    SULFUR_CUBE(EntityType.SULFUR_CUBE, "sulfur-cube", "Sulfur Cube Head", "a5ca506bfc34b9a8d0bed0530e13651b28c2b01c35c41405a78dce9f7dbd7cdb", "src/main/resources/data/more_mob_heads.json", "33ad209c4498514c7bc2726aeb1a2643334de6f2", 2.5D);
 
     private static final String TEXTURE_BASE_URL = "http://textures.minecraft.net/texture/";
     private static final Map<EntityType, HeadType> BY_ENTITY_TYPE = new EnumMap<>(EntityType.class);
