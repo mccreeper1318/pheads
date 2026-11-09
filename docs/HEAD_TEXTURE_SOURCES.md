@@ -10,7 +10,7 @@ https://github.com/RWELabs/Minecraft/tree/4644939004389159c2a52b97e8b35a4dcf5ad7
 
 The RWELabs repository is used here only as a pinned snapshot of the Vanilla Tweaks pack. Permission and attribution for the adapted content are based on Vanilla Tweaks' terms, not on the mirror repository.
 
-The newer Paper 26.3 mobs added for 0.1.2 use texture references from **Teak's Tweaks**, which carries a maintained More Mob Heads implementation under the MIT License. Those values are pinned to Teak's Tweaks commit `5ca969779e614cc5f84012677b25fc01e5f1156c`, file `src/main/resources/data/more_mob_heads.json`, Git blob `33ad209c4498514c7bc2726aeb1a2643334de6f2`. The pinned license file at that commit is Git blob `bdcc13de56f4da031dd4f80f2208010bcdbf1fea`.
+The newer Paper 26.3 mobs added for 0.1.1 use texture references from **Teak's Tweaks**, which carries a maintained More Mob Heads implementation under the MIT License. Those values are pinned to Teak's Tweaks commit `5ca969779e614cc5f84012677b25fc01e5f1156c`, file `src/main/resources/data/more_mob_heads.json`, Git blob `33ad209c4498514c7bc2726aeb1a2643334de6f2`. The pinned license file at that commit is Git blob `bdcc13de56f4da031dd4f80f2208010bcdbf1fea`.
 
 PHeads stores the texture hash/profile reference, not the PNG skin files, and does not call a third-party head API at runtime. Minecraft resolves the referenced textures through `textures.minecraft.net`.
 
